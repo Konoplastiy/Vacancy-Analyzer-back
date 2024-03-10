@@ -3,16 +3,13 @@ package com.konolastiy.vacancyanalyzer.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.konolastiy.vacancyanalyzer.common.mapper.VacancyMapper;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
-import com.konolastiy.vacancyanalyzer.payload.VacancyDto;
+import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClientException;
@@ -30,9 +27,9 @@ public class VacancyService {
     private final VacancyRepository vacancyRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final VacancyMapper vacancyMapper;
 
 
-    @Async
     @Transactional
     public void getDataAndSave() {
         try {
@@ -43,10 +40,6 @@ public class VacancyService {
                     String.class);
             String responseBody = responseEntity.getBody();
 
-            // Parse JSON response using ObjectMapper
-            objectMapper.registerModule(new JavaTimeModule());
-            objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
             JsonNode root = objectMapper.readTree(responseBody);
             JsonNode documentsNode = root.path("documents");
 
@@ -56,15 +49,8 @@ public class VacancyService {
             for (JsonNode documentNode : documentsNode) {
                 VacancyDto vacancyDto = objectMapper.treeToValue(documentNode, VacancyDto.class);
 
-                // Convert VacancyDto into Vacancy Entity
-                Vacancy vacancy = Vacancy.builder()
-                        .name(vacancyDto.getName())
-                        .cityName(vacancyDto.getCityName())
-                        .date(vacancyDto.getDate())
-                        .companyName(vacancyDto.getCompanyName())
-                        .shortDescription(vacancyDto.getShortDescription())
-                        .build();
-
+                // Convert VacancyDto into Vacancy Entity using MapStruct
+                Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
                 vacancies.add(vacancy);
             }
             vacancyRepository.saveAll(vacancies);
