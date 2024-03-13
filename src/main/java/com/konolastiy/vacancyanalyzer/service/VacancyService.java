@@ -8,7 +8,9 @@ import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpMethod;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,45 +20,55 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.LIST_VACANCIES_API_URL_RABOTA_UA;
+
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class VacancyService {
-
-    private static String API_URL_RABOTA = "https://api.rabota.ua/vacancy/search?ukrainian=true&keyWords=програміст";
 
     private final VacancyRepository vacancyRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final VacancyMapper vacancyMapper;
 
+    private static final Logger logger = LoggerFactory.getLogger(VacancyService.class);
 
     @Transactional
-    public void getDataAndSave() {
+    public void getAllVacanciesRabotaUa() {
+        int page = 1;
+
         try {
-            ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    API_URL_RABOTA,
-                    HttpMethod.GET,
-                    null,
-                    String.class);
-            String responseBody = responseEntity.getBody();
+            while (true) {
+                ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                        LIST_VACANCIES_API_URL_RABOTA_UA + page, String.class);
+                String responseBody = responseEntity.getBody();
 
-            JsonNode root = objectMapper.readTree(responseBody);
-            JsonNode documentsNode = root.path("documents");
+                logger.info("Processing page: {}", page);
 
-            List<Vacancy> vacancies = new ArrayList<>();
+                JsonNode root = objectMapper.readTree(responseBody);
+                JsonNode documentsNode = root.path("documents");
 
-            // Iterate through the documents node and convert each JSON object into VacancyDto
-            for (JsonNode documentNode : documentsNode) {
-                VacancyDto vacancyDto = objectMapper.treeToValue(documentNode, VacancyDto.class);
+                List<Vacancy> vacancies = new ArrayList<>();
 
-                // Convert VacancyDto into Vacancy Entity using MapStruct
-                Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
-                vacancies.add(vacancy);
+                if (documentsNode.isEmpty()) {
+                    break; // No more pages, exit the loop
+                }
+
+                // Iterate through the documents node and convert each JSON object into VacancyDto
+                for (JsonNode documentNode : documentsNode) {
+                    VacancyDto vacancyDto = objectMapper.treeToValue(documentNode, VacancyDto.class);
+
+                    // Convert VacancyDto into Vacancy Entity using MapStruct
+                    vacancies.add(vacancyMapper.fromDto(vacancyDto));
+                }
+
+                vacancyRepository.saveAll(vacancies);
+                page++;
             }
-            vacancyRepository.saveAll(vacancies);
         } catch (RestClientException | JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error("Error occurred while fetching and saving vacancies: {}", e.getMessage(), e);
         }
     }
-}
 
+}
