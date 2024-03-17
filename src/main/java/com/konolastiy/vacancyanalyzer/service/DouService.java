@@ -1,7 +1,5 @@
 package com.konolastiy.vacancyanalyzer.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.konolastiy.vacancyanalyzer.common.mapper.VacancyMapper;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
@@ -11,87 +9,70 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class DouService {
 
-    private static final String LINK = "https://jobs.dou.ua/vacancies/?search=";
-    private static final int VACANCIES_PER_REQUEST = 40;
+    private static final String LINK = "https://jobs.dou.ua/vacancies/";
 
     private final VacancyRepository vacancyRepository;
     private final VacancyMapper vacancyMapper;
 
-    public String parseAndSaveVacancies() {
+    public List<Vacancy> getAllVacanciesDouUa() throws IOException {
+        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+
+        // Setting up Selenium WebDriver
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // To run Chrome in headless mode
+        WebDriver driver = new ChromeDriver(options);
+
         try {
-            String link = LINK;
+            driver.get(LINK);
+            String htmlDocument = driver.getPageSource();
+            Document htmlFragment = Jsoup.parse(htmlDocument);
 
-            Document document = Jsoup.connect(link).get();
-            int foundVacancies = getTotalAmountOfVacancies(document);
+            // Your logic for parsing vacancies using JSoup
+            Document document = getDocument();
+            Elements vacancyElements = document.select(".l-vacancy");
+            List<VacancyDto> vacancyDtos = new ArrayList<>();
+            for (Element vacancyElement : vacancyElements) {
+                VacancyDto vacancyDto = new VacancyDto();
+                vacancyDto.setName(vacancyElement.select("position_selector").text());
+                vacancyDto.setCompanyName(vacancyElement.select("company_selector").text());
+                vacancyDto.setShortDescription(vacancyElement.select("description_selector").text());
+                vacancyDto.setDate(LocalDateTime.parse(vacancyElement.select("date_selector").text()));
+                vacancyDto.setCityName(vacancyElement.select(".cities").text());
 
-            int totalShifts = getTotalShifts(foundVacancies);
-
-            for (int shift = 0; shift <= totalShifts; shift++) {
-                int offset = calculateOffset(shift);
-
-                String jsonUrl = String.format("https://jobs.dou.ua/vacancies/xhr-load/");
-                String params = String.format("csrfmiddlewaretoken=%s&count=%d", getCsrfMiddlewareToken(document), offset);
-
-                String jsonResponse = new RestTemplate().postForObject(jsonUrl, params, String.class);
-                Document ajaxDocument = Jsoup.parse(jsonResponse);
-
-                Elements vacancyElements = ajaxDocument.select("li.l-vacancy .vacancy");
-
-                for (Element vacancyElement : vacancyElements) {
-                    String name = vacancyElement.select(".title a.vt").first().text();
-                    String companyName = vacancyElement.select(".title a.company").first().text();
-                    String cityName = vacancyElement.select(".title span.cities").first().text();
-                    LocalDateTime date = LocalDateTime.now(); // Set the date as needed
-                    String shortDescription = vacancyElement.select(".sh-info").first().text();
-
-                    VacancyDto vacancyDto = VacancyDto.builder()
-                            .name(name)
-                            .companyName(companyName)
-                            .cityName(cityName)
-                            .date(date)
-                            .shortDescription(shortDescription)
-                            .build();
-
-                    Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
-                    vacancyRepository.save(vacancy);
-                }
+                vacancyDtos.add(vacancyDto);
             }
 
-            return "Vacancies parsed and saved successfully!";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Failed to parse and save vacancies!";
+            // Now you can save these DTOs to the database after mapping them to entities
+            List<Vacancy> vacancies = new ArrayList<>();
+            for (VacancyDto vacancyDto : vacancyDtos) {
+                vacancies.add(vacancyMapper.fromDto(vacancyDto));
+            }
+
+            return vacancyRepository.saveAll(vacancies);
+
+        } finally {
+            driver.quit();
         }
     }
 
-    private int getTotalAmountOfVacancies(Document document) {
-        String titleFoundVacancies = document.select(".b-inner-page-header h1").first().text();
-        int firstSpace = titleFoundVacancies.indexOf(' ');
-        titleFoundVacancies = titleFoundVacancies.substring(0, firstSpace);
-
-        return Integer.parseInt(titleFoundVacancies);
-    }
-
-    private int getTotalShifts(int totalVacancies) {
-        return totalVacancies / VACANCIES_PER_REQUEST;
-    }
-
-    private int calculateOffset(int shift) {
-        return shift * VACANCIES_PER_REQUEST;
-    }
-
-    private String getCsrfMiddlewareToken(Document document) {
-        return document.select("input[name=csrfmiddlewaretoken]").attr("value");
+    protected Document getDocument() throws IOException {
+        return Jsoup.connect(String.format(LINK))
+                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
+                .referrer("https://google.com/").get();
     }
 }
+

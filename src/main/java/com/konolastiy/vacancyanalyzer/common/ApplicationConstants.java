@@ -17,5 +17,7 @@ public class ApplicationConstants {
         public static final String LIST_VACANCIES_API_URL_RABOTA_UA =
                 "https://api.rabota.ua/vacancy/search?ukrainian=true&keyWords=програміст&page=";
 
+        public static final String FRONT_URL = "localhost:4000";
+
     }
 }
