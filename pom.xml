@@ -16,16 +16,22 @@
 
     <properties>
         <java.version>17</java.version>
-        <spring-boot-dependencies.version>3.2.3</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>3.2.4</spring-boot-dependencies.version>
         <lombock.version>1.18.30</lombock.version>
         <jackson-databind.version>2.16.1</jackson-databind.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <jsoup.version>1.17.2</jsoup.version>
+        <selenium.version>4.19.1</selenium.version>
+        <hibernate-envers.version>6.4.4.Final</hibernate-envers.version>
+        <webdrivermanager.version>5.7.0</webdrivermanager.version>
+        <springdoc-openapi-starter-webmvc-ui.version>2.5.0</springdoc-openapi-starter-webmvc-ui.version>
         <h2.version>2.2.224</h2.version>
         <postgresql.version>42.7.2</postgresql.version>
         <mockito.version>5.10.0</mockito.version>
         <junit-jupiter.version>5.10.1</junit-jupiter.version>
         <junit.version>4.13.2</junit.version>
+        <snakeyaml.version>2.0</snakeyaml.version>
     </properties>
 
     <!-- Dependency Management for Spring Boot -->
@@ -81,10 +87,6 @@
             <version>${jackson-databind.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
@@ -102,20 +104,28 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.17.2</version>
+            <version>${jsoup.version}</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.11.0</version>
+            <version>${selenium.version}</version>
         </dependency>
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.7.0</version>
+            <version>${webdrivermanager.version}</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc-openapi-starter-webmvc-ui.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>${hibernate-envers.version}</version>
+        </dependency>
 
         <!-- Database dependencies -->
         <dependency>
@@ -159,7 +169,7 @@
     </dependencies>
 
     <build>
-        <finalName>vacancyanalyzer</finalName>
+        <finalName>vacancy-analyzer</finalName>
 
         <plugins>
 

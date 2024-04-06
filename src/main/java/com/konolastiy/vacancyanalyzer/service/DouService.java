@@ -15,7 +15,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +27,11 @@ public class DouService {
     private final VacancyRepository vacancyRepository;
     private final VacancyMapper vacancyMapper;
 
+    //TODO Refactor the method getAllVacanciesDouUa in DouService
+
     public List<Vacancy> getAllVacanciesDouUa() throws IOException {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
 
-        // Setting up Selenium WebDriver
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless"); // To run Chrome in headless mode
         WebDriver driver = new ChromeDriver(options);
@@ -47,10 +47,10 @@ public class DouService {
             List<VacancyDto> vacancyDtos = new ArrayList<>();
             for (Element vacancyElement : vacancyElements) {
                 VacancyDto vacancyDto = new VacancyDto();
-                vacancyDto.setName(vacancyElement.select("position_selector").text());
+                vacancyDto.setVacancyName(vacancyElement.select("position_selector").text());
                 vacancyDto.setCompanyName(vacancyElement.select("company_selector").text());
                 vacancyDto.setShortDescription(vacancyElement.select("description_selector").text());
-                vacancyDto.setDate(LocalDateTime.parse(vacancyElement.select("date_selector").text()));
+                //vacancyDto.setDate(LocalDateTime.parse(vacancyElement.select("date_selector").text()));
                 vacancyDto.setCityName(vacancyElement.select(".cities").text());
 
                 vacancyDtos.add(vacancyDto);

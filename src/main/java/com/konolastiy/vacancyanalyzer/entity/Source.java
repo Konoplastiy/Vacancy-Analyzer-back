@@ -1,6 +1,6 @@
 package com.konolastiy.vacancyanalyzer.entity;
 
-import com.konolastiy.vacancyanalyzer.common.enums.CompanyName;
+import com.konolastiy.vacancyanalyzer.common.enums.Platform;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ public class Source {
     private Integer id;
 
     @Enumerated(EnumType.STRING)
-    private CompanyName name;
+    private Platform name;
 
     private String link;
 }

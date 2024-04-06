@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - 9000:9000
+    networks:
+      - backend
+
+  backapp:
+    image: kanap/vacancy-analyzer
+    container_name: vacancy-analyzer
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+    ports:
+      - 8081:8081
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: "bridge"

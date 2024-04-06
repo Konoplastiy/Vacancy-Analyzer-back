@@ -1,14 +1,17 @@
 package com.konolastiy.vacancyanalyzer.common.utils;
 
-import com.konolastiy.vacancyanalyzer.common.enums.CompanyName;
+import com.konolastiy.vacancyanalyzer.common.enums.Platform;
 import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
+import com.konolastiy.vacancyanalyzer.service.DjinniService;
 import com.konolastiy.vacancyanalyzer.service.DouService;
-import com.konolastiy.vacancyanalyzer.service.RobotaService;
+import com.konolastiy.vacancyanalyzer.service.RobotaUaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 @Component
 @RequiredArgsConstructor
@@ -17,25 +20,30 @@ public class InitializationData implements CommandLineRunner {
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String ddlAuto;
     private final SourceRepository sourceRepository;
-    private final RobotaService robotaService;
+    private final RobotaUaService robotaUaService;
     private final DouService douService;
+    private final DjinniService djinniService;
 
     @Override
     public void run(String... args) throws Exception {
         if (ddlAuto.startsWith("create")) {
             Source source1 = new Source();
-            source1.setName(CompanyName.ROBOTA);
-            source1.setLink("https://api.rabota.ua/vacancy/search?ukrainian=true&keyWords=програміст&page=");
+            source1.setName(Platform.ROBOTAUA);
+            source1.setLink(Platform.ROBOTAUA.getLink());
 
             Source source2 = new Source();
-            source2.setName(CompanyName.DOU);
-            source2.setLink("https://api.rabota.ua/vacancy/search?ukrainian=true&keyWords=програміст&page=");
+            source2.setName(Platform.DJINNI);
+            source2.setLink(Platform.DJINNI.getLink());
 
-            sourceRepository.save(source1);
-            sourceRepository.save(source2);
+            Source source3 = new Source();
+            source3.setName(Platform.DOU);
+            source3.setLink(Platform.DOU.getLink());
 
-            //robotaService.getAllVacanciesRobotaUa();
-            douService.getAllVacanciesDouUa();
+            sourceRepository.saveAll(Arrays.asList(source1, source2, source3));
+
+            //robotaUaService.getAllVacanciesRobotaUa();
+            //douService.getAllVacanciesDouUa();
+            //djinniService.getAllVacanciesDjinni();
         }
     }
 }
