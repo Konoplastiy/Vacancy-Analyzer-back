@@ -1,5 +1,6 @@
 package com.konolastiy.vacancyanalyzer.service;
 
+import com.konolastiy.vacancyanalyzer.common.exception.SourceNotFoundException;
 import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
@@ -8,7 +9,6 @@ import com.konolastiy.vacancyanalyzer.service.collector.DjinniVacancyCollector;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ConfigConstants.THREAD_POOL_SIZE;
+import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ErrorMessageConstants.SOURCE_NOT_FOUND_MESSAGE;
 
 @Service
 @Slf4j
@@ -36,13 +37,13 @@ public class DjinniService {
     @Transactional
     public void getAllVacanciesDjinni() {
         Source source = sourceRepository.findById(2)
-                .orElseThrow(() -> new NotFoundException("Source with id 2 not found"));
+                .orElseThrow(() -> new SourceNotFoundException(String.format(SOURCE_NOT_FOUND_MESSAGE, 2)));
 
         String link = source.getLink();
 
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= 40; i++) {
             tasks.add(new DjinniVacancyCollector(source, link + i, vacancyRepository));
         }
 
@@ -51,7 +52,7 @@ public class DjinniService {
 
             for (Future<List<Vacancy>> future : futures) {
                 try {
-                    vacancyRepository.saveAll(future.get());
+                    future.get();
                 } catch (Exception e) {
                     logger.warn(e.getMessage());
                 }

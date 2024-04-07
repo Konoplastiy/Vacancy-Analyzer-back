@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ConfigConstants.CHROME_DRIVER_NAME;
+import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ErrorMessageConstants.NO_DESCRIPTION_FOUND_MESSAGE;
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.CHROME_DRIVER_PATH;
 
 public class RobotoUaCollector implements Callable<List<Vacancy>> {
@@ -31,13 +33,13 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
     }
 
     @Override
-    public List<Vacancy> call() throws InterruptedException {
+    public List<Vacancy> call() {
         return collectVacancies();
     }
 
-    private List<Vacancy> collectVacancies() throws InterruptedException {
+    private List<Vacancy> collectVacancies() {
         List<Vacancy> vacancies = new ArrayList<>();
-        System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_PATH);
+        System.setProperty(CHROME_DRIVER_NAME, CHROME_DRIVER_PATH);
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         WebDriver driver = new ChromeDriver(options);
@@ -77,6 +79,8 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
                 vacancy.setSource(source);
                 vacancies.add(vacancy);
             }
+
+            // TODO: Implement DTO and Mapper for entity-data conversion.
             vacancyRepository.saveAll(vacancies);
 
         } catch (Exception e) {
@@ -100,7 +104,7 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
                 return text.substring(0, Math.min(text.length(), 255));
             }
         }
-        return "Unfortunately, no description was found for this vacancy.";
+        return NO_DESCRIPTION_FOUND_MESSAGE;
     }
 
 }

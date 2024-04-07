@@ -14,6 +14,8 @@ public class ApplicationConstants {
     @UtilityClass
     public class UrlConstants {
         public static final String FRONT_URL = "localhost:4000";
+        public static final String GOOGLE_HOME_URL = "https://www.google.com";
+        public static final String DJINNI_HOME_PAGE_URL = "https://djinni.co";
         public static final String CHROME_DRIVER_PATH = "src/main/resources/chromedriver.exe";
     }
 
@@ -31,5 +33,20 @@ public class ApplicationConstants {
     @UtilityClass
     public class ConfigConstants {
         public static final Integer THREAD_POOL_SIZE = 3;
+        public static final String CHROME_DRIVER_NAME = "webdriver.chrome.driver";
     }
+
+    /**
+     * Constants related to error messages.
+     */
+    @UtilityClass
+    public class ErrorMessageConstants {
+
+        /**
+         * Error message indicating that no description was found for a vacancy.
+         */
+        public static final String NO_DESCRIPTION_FOUND_MESSAGE = "Unfortunately, no description was found for this vacancy.";
+        public static final String SOURCE_NOT_FOUND_MESSAGE = "Source with id %d not found";
+    }
+
 }
