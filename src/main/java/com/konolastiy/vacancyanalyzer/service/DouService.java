@@ -1,78 +1,66 @@
 package com.konolastiy.vacancyanalyzer.service;
 
-import com.konolastiy.vacancyanalyzer.common.mapper.VacancyMapper;
+import com.konolastiy.vacancyanalyzer.common.exception.SourceNotFoundException;
+import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
-import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
+import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
+import com.konolastiy.vacancyanalyzer.service.collector.DouUaCollector;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
+import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ConfigConstants.THREAD_POOL_SIZE;
+import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ErrorMessageConstants.SOURCE_NOT_FOUND_MESSAGE;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DouService {
 
-    private static final String LINK = "https://jobs.dou.ua/vacancies/";
-
     private final VacancyRepository vacancyRepository;
-    private final VacancyMapper vacancyMapper;
+    private final SourceRepository sourceRepository;
 
-    //TODO Refactor the method getAllVacanciesDouUa in DouService
+    private static final Logger logger = LoggerFactory.getLogger(DouService.class);
 
-    public List<Vacancy> getAllVacanciesDouUa() throws IOException {
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver.exe");
+    @Transactional
+    public void getAllVacanciesDouUa() {
+        Source source = sourceRepository.findById(3)
+                .orElseThrow(() -> new SourceNotFoundException(String.format(SOURCE_NOT_FOUND_MESSAGE, 2)));
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // To run Chrome in headless mode
-        WebDriver driver = new ChromeDriver(options);
+        String link = source.getLink();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
+        for (int i = 1; i <= 40; i++) {
+            tasks.add(new DouUaCollector(source, link + i, vacancyRepository));
+        }
 
         try {
-            driver.get(LINK);
-            String htmlDocument = driver.getPageSource();
-            Document htmlFragment = Jsoup.parse(htmlDocument);
+            List<Future<List<Vacancy>>> futures = executorService.invokeAll(tasks);
 
-            // Your logic for parsing vacancies using JSoup
-            Document document = getDocument();
-            Elements vacancyElements = document.select(".l-vacancy");
-            List<VacancyDto> vacancyDtos = new ArrayList<>();
-            for (Element vacancyElement : vacancyElements) {
-                VacancyDto vacancyDto = new VacancyDto();
-                vacancyDto.setVacancyName(vacancyElement.select("position_selector").text());
-                vacancyDto.setCompanyName(vacancyElement.select("company_selector").text());
-                vacancyDto.setShortDescription(vacancyElement.select("description_selector").text());
-                //vacancyDto.setDate(LocalDateTime.parse(vacancyElement.select("date_selector").text()));
-                vacancyDto.setCityName(vacancyElement.select(".cities").text());
+            for (Future<List<Vacancy>> future : futures) {
+                try {
+                    future.get();
+                } catch (Exception e) {
+                    logger.warn(e.getMessage());
+                }
 
-                vacancyDtos.add(vacancyDto);
             }
-
-            // Now you can save these DTOs to the database after mapping them to entities
-            List<Vacancy> vacancies = new ArrayList<>();
-            for (VacancyDto vacancyDto : vacancyDtos) {
-                vacancies.add(vacancyMapper.fromDto(vacancyDto));
-            }
-
-            return vacancyRepository.saveAll(vacancies);
-
-        } finally {
-            driver.quit();
+        } catch (InterruptedException e) {
+            logger.warn("Thread interrupted while executing tasks: " + e.getMessage());
         }
     }
 
-    protected Document getDocument() throws IOException {
-        return Jsoup.connect(String.format(LINK))
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36")
-                .referrer("https://google.com/").get();
-    }
 }
 
