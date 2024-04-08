@@ -1,7 +1,9 @@
 package com.konolastiy.vacancyanalyzer.service.collector;
 
+import com.konolastiy.vacancyanalyzer.common.mapper.VacancyMapper;
 import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
+import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,11 +23,16 @@ public class DjinniVacancyCollector implements Callable<List<Vacancy>> {
     private final Source source;
     private final String link;
     private final VacancyRepository vacancyRepository;
+    private final VacancyMapper vacancyMapper;
 
-    public DjinniVacancyCollector(Source source, String link, VacancyRepository vacancyRepository) {
+    public DjinniVacancyCollector(Source source,
+                                  String link,
+                                  VacancyRepository vacancyRepository,
+                                  VacancyMapper vacancyMapper) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;
+        this.vacancyMapper = vacancyMapper;
     }
 
     @Override
@@ -48,19 +55,21 @@ public class DjinniVacancyCollector implements Callable<List<Vacancy>> {
         List<Vacancy> vacancies = new ArrayList<>();
 
         for (Element element : vacanciesOnPage) {
-            Vacancy vacancy = new Vacancy();
+            VacancyDto vacancyDto = new VacancyDto();
             Element linkVacancy = element.select(".job-list-item__link").first();
-            vacancy.setCompanyName(element.select("a.mr-2").text().strip());
-            vacancy.setVacancyName(element.select("a.h3.job-list-item__link").text().strip());
-            vacancy.setDate(element.select(".mr-2 nobr").text());
-            vacancy.setCityName(element.select("span.location-text").text().strip());
-            vacancy.setShortDescription(element.select("div.job-list-item__description").text().strip());
-            vacancy.setUrlVacancy(DJINNI_HOME_PAGE_URL + linkVacancy.attr("href"));
-            vacancy.setSource(source);
+            vacancyDto.setCompanyName(element.select("a.mr-2").text().strip());
+            vacancyDto.setVacancyName(element.select("a.h3.job-list-item__link").text().strip());
+            vacancyDto.setDate(element.select(".mr-2 nobr").text());
+            vacancyDto.setCityName(element.select("span.location-text").text().strip());
+            vacancyDto.setShortDescription(element.select("div.job-list-item__description").text().strip());
+            vacancyDto.setUrlVacancy(DJINNI_HOME_PAGE_URL + linkVacancy.attr("href"));
+            vacancyDto.setSourceId(source);
+
+            Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
+            vacancy.setSource(vacancyDto.getSourceId());
             vacancies.add(vacancy);
         }
 
-        // TODO: Implement DTO and Mapper for entity-data conversion.
         vacancyRepository.saveAll(vacancies);
 
         return vacancies;

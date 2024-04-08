@@ -1,7 +1,9 @@
 package com.konolastiy.vacancyanalyzer.service.collector;
 
+import com.konolastiy.vacancyanalyzer.common.mapper.VacancyMapper;
 import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
+import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,11 +22,13 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
     private final Source source;
     private final String link;
     private final VacancyRepository vacancyRepository;
+    private final VacancyMapper vacancyMapper;
 
-    public DouUaCollector(Source source, String link, VacancyRepository vacancyRepository) {
+    public DouUaCollector(Source source, String link, VacancyRepository vacancyRepository, VacancyMapper vacancyMapper) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;
+        this.vacancyMapper = vacancyMapper;
     }
 
     @Override
@@ -46,18 +50,19 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
             Elements vacancyElements = document.select(".l-vacancy");
 
             for (Element vacancyElement : vacancyElements) {
-                Vacancy vacancy = new Vacancy();
-                vacancy.setUrlVacancy(vacancyElement.select("a.vt").attr("href"));
-                vacancy.setCityName(vacancyElement.select(".cities").text());
-                vacancy.setCompanyName(vacancyElement.select("a.company").text());
-                vacancy.setShortDescription(vacancyElement.select("div.sh-info").text());
-                vacancy.setDate(vacancyElement.select(".date").text());
+                VacancyDto vacancyDto = new VacancyDto();
+                vacancyDto.setUrlVacancy(vacancyElement.select("a.vt").attr("href"));
+                vacancyDto.setCityName(vacancyElement.select(".cities").text());
+                vacancyDto.setCompanyName(vacancyElement.select("a.company").text());
+                vacancyDto.setShortDescription(vacancyElement.select("div.sh-info").text());
+                vacancyDto.setDate(vacancyElement.select(".date").text());
                 String salary = vacancyElement.select(".salary").text();
-                vacancy.setSalary(!salary.isEmpty() ? salary : "0 - ЗП не вказана");
-                vacancy.setVacancyName(vacancyElement.select("div.title > a.vt").first().text().strip());
+                vacancyDto.setSalary(!salary.isEmpty() ? salary : "0 - ЗП не вказана");
+                vacancyDto.setVacancyName(vacancyElement.select("div.title > a.vt").first().text().strip());
+                vacancyDto.setSourceId(source);
 
-
-                vacancy.setSource(source);
+                Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
+                vacancy.setSource(vacancyDto.getSourceId());
                 vacancies.add(vacancy);
             }
 

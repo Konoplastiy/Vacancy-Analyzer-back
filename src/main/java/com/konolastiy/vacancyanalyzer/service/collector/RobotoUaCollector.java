@@ -1,7 +1,9 @@
 package com.konolastiy.vacancyanalyzer.service.collector;
 
+import com.konolastiy.vacancyanalyzer.common.mapper.VacancyMapper;
 import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
+import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -25,11 +27,16 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
     private final Source source;
     private final String link;
     private final VacancyRepository vacancyRepository;
+    private final VacancyMapper vacancyMapper;
 
-    public RobotoUaCollector(Source source, String link, VacancyRepository vacancyRepository) {
+    public RobotoUaCollector(Source source,
+                             String link,
+                             VacancyRepository vacancyRepository,
+                             VacancyMapper vacancyMapper) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;
+        this.vacancyMapper = vacancyMapper;
     }
 
     @Override
@@ -52,35 +59,36 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
 
             List<WebElement> cardElements = driver.findElements(By.className("card"));
             for (WebElement cardElement : cardElements) {
-                Vacancy vacancy = new Vacancy();
-                vacancy.setUrlVacancy(cardElement.getAttribute("href"));
-                vacancy.setVacancyName(cardElement.findElement(By.tagName("h2")).getText());
+                VacancyDto vacancyDto = new VacancyDto();
+                vacancyDto.setUrlVacancy(cardElement.getAttribute("href"));
+                vacancyDto.setVacancyName(cardElement.findElement(By.tagName("h2")).getText());
                 List<WebElement> santamb10 = cardElement.findElements(By.cssSelector("div.santa-flex div.santa-mb-10:not(h2):not(.ng-star-inserted)"));
                 if (santamb10.size() == 2) {
-                    vacancy.setSalary(santamb10.get(0).getText());
-                    vacancy.setCityName(santamb10.get(1).getText());
+                    vacancyDto.setSalary(santamb10.get(0).getText());
+                    vacancyDto.setCityName(santamb10.get(1).getText());
                 } else {
-                    vacancy.setSalary("0");
-                    vacancy.setCityName(santamb10.get(0).getText());
+                    vacancyDto.setSalary("0");
+                    vacancyDto.setCityName(santamb10.get(0).getText());
                 }
-                vacancy.setCompanyName(cardElement.findElement(By.className("santa-mr-20")).getText());
-                vacancy.setDate(cardElement.findElement(By.cssSelector(".santa-typo-secondary.santa-text-black-500")).getText());
+                vacancyDto.setCompanyName(cardElement.findElement(By.className("santa-mr-20")).getText());
+                vacancyDto.setDate(cardElement.findElement(By.cssSelector(".santa-typo-secondary.santa-text-black-500")).getText());
 
-                if (vacancy.getCityName().contains(vacancy.getCompanyName())) {
-                    vacancy.setCityName(vacancy.getCityName().replaceAll(vacancy.getCompanyName(), ""));
+                if (vacancyDto.getCityName().contains(vacancyDto.getCompanyName())) {
+                    vacancyDto.setCityName(vacancyDto.getCityName().replaceAll(vacancyDto.getCompanyName(), ""));
                 }
-                if (vacancy.getSalary().isEmpty()) {
-                    vacancy.setSalary("0");
+                if (vacancyDto.getSalary().isEmpty()) {
+                    vacancyDto.setSalary("0");
                 }
 
-                driverNextPage.get(vacancy.getUrlVacancy());
-                vacancy.setShortDescription(getShortDescription(driverNextPage));
+                driverNextPage.get(vacancyDto.getUrlVacancy());
+                vacancyDto.setShortDescription(getShortDescription(driverNextPage));
+                vacancyDto.setSourceId(source);
 
-                vacancy.setSource(source);
+                Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
+                vacancy.setSource(vacancyDto.getSourceId());
                 vacancies.add(vacancy);
             }
 
-            // TODO: Implement DTO and Mapper for entity-data conversion.
             vacancyRepository.saveAll(vacancies);
 
         } catch (Exception e) {
@@ -99,7 +107,7 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
         List<WebElement> paragraphs = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(".full-desc p")));
 
         for (WebElement paragraph : paragraphs) {
-            String text = paragraph.getText();
+            String text = paragraph.getText().replace("\n", "").strip();
             if (text.length() >= 50) {
                 return text.substring(0, Math.min(text.length(), 255));
             }
