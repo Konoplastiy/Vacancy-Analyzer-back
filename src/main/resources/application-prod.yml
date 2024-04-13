@@ -1,0 +1,7 @@
+spring:
+  #Database settings
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/vacancyanalyzer
+    username: ${POSTGRES_NAME}
+    password: ${POSTGRES_PASS}

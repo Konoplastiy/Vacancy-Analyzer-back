@@ -1,0 +1,8 @@
+{
+  "experienceLevels": {
+    "Senior": ["senior", "lead"],
+    "Middle": ["middle", "midle"],
+    "Junior": ["junior"],
+    "Trainee": ["trainee", "intern"]
+  }
+}

@@ -64,8 +64,8 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
                 vacancyDto.setVacancyName(cardElement.findElement(By.tagName("h2")).getText());
                 List<WebElement> santamb10 = cardElement.findElements(By.cssSelector("div.santa-flex div.santa-mb-10:not(h2):not(.ng-star-inserted)"));
                 if (santamb10.size() == 2) {
-                    vacancyDto.setSalary(santamb10.get(0).getText());
-                    vacancyDto.setCityName(santamb10.get(1).getText());
+                    vacancyDto.setSalary(santamb10.get(0).getText().strip());
+                    vacancyDto.setCityName(santamb10.get(1).getText().strip());
                 } else {
                     vacancyDto.setSalary("0");
                     vacancyDto.setCityName(santamb10.get(0).getText());
@@ -76,12 +76,13 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
                 if (vacancyDto.getCityName().contains(vacancyDto.getCompanyName())) {
                     vacancyDto.setCityName(vacancyDto.getCityName().replaceAll(vacancyDto.getCompanyName(), ""));
                 }
-                if (vacancyDto.getSalary().isEmpty()) {
-                    vacancyDto.setSalary("0");
-                }
 
                 driverNextPage.get(vacancyDto.getUrlVacancy());
                 vacancyDto.setShortDescription(getShortDescription(driverNextPage));
+
+                // TODO FIX ShortDescription(rewrite)
+                //vacancyDto.setShortDescription(cardElement.findElement(By.cssSelector(".santa-mb-10 p")).getText().strip());
+
                 vacancyDto.setSourceId(source);
 
                 Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
@@ -109,7 +110,7 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
         for (WebElement paragraph : paragraphs) {
             String text = paragraph.getText().replace("\n", "").strip();
             if (text.length() >= 50) {
-                return text.substring(0, Math.min(text.length(), 255));
+                return text.substring(0, Math.min(text.length(), 200));
             }
         }
         return NO_DESCRIPTION_FOUND_MESSAGE;
