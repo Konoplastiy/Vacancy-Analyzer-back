@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="local_environment" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="Environments">
+    <option name="ACTIVE_PROFILES" value="-Dspring.profiles.active=local" />
+    <envs>
+      <env name="H2_NAME" value="kanap" />
+      <env name="H2_PASS" value="" />
+    </envs>
+    <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+    <module name="vacancy-analyzer" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.konolastiy.vacancyanalyzer.VacancyAnalyzerApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
