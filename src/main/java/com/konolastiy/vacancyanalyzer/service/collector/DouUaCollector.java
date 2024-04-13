@@ -5,6 +5,7 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
+import com.konolastiy.vacancyanalyzer.service.VacancyService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,12 +24,18 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
     private final String link;
     private final VacancyRepository vacancyRepository;
     private final VacancyMapper vacancyMapper;
+    private final VacancyService vacancyService;
 
-    public DouUaCollector(Source source, String link, VacancyRepository vacancyRepository, VacancyMapper vacancyMapper) {
+    public DouUaCollector(Source source,
+                          String link,
+                          VacancyRepository vacancyRepository,
+                          VacancyMapper vacancyMapper,
+                          VacancyService vacancyService) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;
         this.vacancyMapper = vacancyMapper;
+        this.vacancyService = vacancyService;
     }
 
     @Override
@@ -59,6 +66,7 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
                 String salary = vacancyElement.select(".salary").text();
                 vacancyDto.setSalary(!salary.isEmpty() ? salary : "0");
                 vacancyDto.setVacancyName(vacancyElement.select("div.title > a.vt").first().text().strip());
+                vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
                 vacancyDto.setSourceId(source);
 
                 Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);

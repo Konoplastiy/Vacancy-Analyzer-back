@@ -23,7 +23,6 @@ public class InitializationData implements CommandLineRunner {
     private final RobotaUaService robotaUaService;
     private final DouService douService;
     private final DjinniService djinniService;
-    private final VacancyService vacancyService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -44,7 +43,6 @@ public class InitializationData implements CommandLineRunner {
 
             //robotaUaService.getAllVacanciesRobotaUa();
             douService.getAllVacanciesDouUa();
-            vacancyService.vacancySetExperience();
             //djinniService.getAllVacanciesDjinni();
         }
     }
