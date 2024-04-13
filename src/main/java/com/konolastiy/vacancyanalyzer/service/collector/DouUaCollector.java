@@ -66,7 +66,7 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
                 String salary = vacancyElement.select(".salary").text();
                 vacancyDto.setSalary(!salary.isEmpty() ? salary : "0");
                 vacancyDto.setVacancyName(vacancyElement.select("div.title > a.vt").first().text().strip());
-                vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
+                //vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
                 vacancyDto.setSourceId(source);
 
                 Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);

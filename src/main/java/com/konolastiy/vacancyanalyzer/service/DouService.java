@@ -45,7 +45,7 @@ public class DouService {
 
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
-        for (int i = 1; i <= 40; i++) {
+        for (int i = 1; i <= 50; i++) {
             tasks.add(new DouUaCollector(source,
                     link + i,
                     vacancyRepository,

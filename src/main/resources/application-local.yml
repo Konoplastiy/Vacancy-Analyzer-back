@@ -2,6 +2,6 @@ spring:
   #Database settings
   datasource:
     driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:localdb
+    url: jdbc:h2:mem:vacancyanalyzer
     username: ${H2_NAME}
     password: ${H2_PASS}
