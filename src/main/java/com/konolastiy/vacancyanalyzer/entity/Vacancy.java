@@ -33,6 +33,10 @@ public class Vacancy extends BaseEntity {
 
     private String salary;
 
+    private String experienceLevel;
+
+    private String englishLevel;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "source_id")
     @NotAudited

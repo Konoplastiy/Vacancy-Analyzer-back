@@ -57,7 +57,7 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
                 vacancyDto.setShortDescription(vacancyElement.select("div.sh-info").text());
                 vacancyDto.setDate(vacancyElement.select(".date").text());
                 String salary = vacancyElement.select(".salary").text();
-                vacancyDto.setSalary(!salary.isEmpty() ? salary : "0 - ЗП не вказана");
+                vacancyDto.setSalary(!salary.isEmpty() ? salary : "0");
                 vacancyDto.setVacancyName(vacancyElement.select("div.title > a.vt").first().text().strip());
                 vacancyDto.setSourceId(source);
 

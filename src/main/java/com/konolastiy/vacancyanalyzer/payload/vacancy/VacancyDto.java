@@ -3,6 +3,7 @@ package com.konolastiy.vacancyanalyzer.payload.vacancy;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.konolastiy.vacancyanalyzer.entity.Source;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -46,6 +47,14 @@ public class VacancyDto {
     @NotBlank(message = "Salary must not be blank")
     @Schema(description = "Salary for the vacancy", example = "2000 USD")
     private String salary;
+
+    @Nullable
+    @Schema(description = "Experience level required for the vacancy", example = "Senior")
+    private String experienceLevel;
+
+    @Nullable
+    @Schema(description = "English level required for the vacancy", example = "Intermediate")
+    private String englishLevel;
 
     @NotNull(message = "Source must not be null")
     @Schema(description = "Source of the vacancy", implementation = Source.class)
