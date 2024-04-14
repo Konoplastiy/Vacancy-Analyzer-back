@@ -13,7 +13,7 @@ public class ApplicationConstants {
      */
     @UtilityClass
     public class UrlConstants {
-        public static final String FRONT_URL = "localhost:4000";
+        public static final String FRONT_URL = "http://localhost:4200";
         public static final String GOOGLE_HOME_URL = "https://www.google.com";
         public static final String DJINNI_HOME_PAGE_URL = "https://djinni.co";
         public static final String CHROME_DRIVER_PATH = "src/main/resources/chromedriver.exe";

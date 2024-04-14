@@ -39,7 +39,7 @@ public class ApplicationConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         configuration.setAllowedOrigins(List.of(Objects.requireNonNull(FRONT_URL)));
         configuration.setAllowedMethods(List.of("POST", "GET"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setAllowedHeaders(List.of("Cache-Control", "Content-Type", "application/json"));
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
