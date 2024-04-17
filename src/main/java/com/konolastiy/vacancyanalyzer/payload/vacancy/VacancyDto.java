@@ -5,7 +5,6 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,7 +55,7 @@ public class VacancyDto {
     @Schema(description = "English level required for the vacancy", example = "Intermediate")
     private String englishLevel;
 
-    @NotNull(message = "Source must not be null")
+
     @Schema(description = "Source of the vacancy", implementation = Source.class)
     private Source sourceId;
 }

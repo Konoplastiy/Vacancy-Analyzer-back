@@ -5,6 +5,7 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
+import com.konolastiy.vacancyanalyzer.service.VacancyService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,12 +24,18 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
     private final String link;
     private final VacancyRepository vacancyRepository;
     private final VacancyMapper vacancyMapper;
+    private final VacancyService vacancyService;
 
-    public DouUaCollector(Source source, String link, VacancyRepository vacancyRepository, VacancyMapper vacancyMapper) {
+    public DouUaCollector(Source source,
+                          String link,
+                          VacancyRepository vacancyRepository,
+                          VacancyMapper vacancyMapper,
+                          VacancyService vacancyService) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;
         this.vacancyMapper = vacancyMapper;
+        this.vacancyService = vacancyService;
     }
 
     @Override
@@ -42,6 +49,7 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
             Document document = Jsoup.connect(String.format(link))
                     .ignoreContentType(true)
                     .referrer(GOOGLE_HOME_URL)
+                    .timeout(10000)
                     .header("Accept-Encoding", "gzip, deflate, br, zstd")
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
                     .maxBodySize(Integer.MAX_VALUE)
@@ -59,6 +67,7 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
                 String salary = vacancyElement.select(".salary").text();
                 vacancyDto.setSalary(!salary.isEmpty() ? salary : "0");
                 vacancyDto.setVacancyName(vacancyElement.select("div.title > a.vt").first().text().strip());
+                vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
                 vacancyDto.setSourceId(source);
 
                 Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
