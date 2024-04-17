@@ -47,7 +47,7 @@ public class DouService {
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
         for (int i = 1; i <= 50; i++) {
             tasks.add(new DouUaCollector(source,
-                    link + i,
+                    link,
                     vacancyRepository,
                     vacancyMapper,
                     vacancyService));

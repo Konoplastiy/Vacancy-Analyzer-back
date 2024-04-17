@@ -32,6 +32,7 @@ public class RobotaUaService {
     private final VacancyRepository vacancyRepository;
     private final SourceRepository sourceRepository;
     private final VacancyMapper vacancyMapper;
+    private final VacancyService vacancyService;
 
     private static final Logger logger = LoggerFactory.getLogger(RobotaUaService.class);
 
@@ -47,7 +48,12 @@ public class RobotaUaService {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
         for (int i = 1; i <= 40; i++) {
-            tasks.add(new RobotoUaCollector(source, link + i, vacancyRepository, vacancyMapper));
+            tasks.add(new RobotoUaCollector(source,
+                    link + i,
+                    vacancyRepository,
+                    vacancyMapper,
+                    vacancyService)
+            );
         }
         try {
             List<Future<List<Vacancy>>> futures = executorService.invokeAll(tasks);

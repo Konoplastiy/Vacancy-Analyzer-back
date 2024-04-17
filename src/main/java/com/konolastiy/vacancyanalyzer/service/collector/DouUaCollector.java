@@ -49,6 +49,7 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
             Document document = Jsoup.connect(String.format(link))
                     .ignoreContentType(true)
                     .referrer(GOOGLE_HOME_URL)
+                    .timeout(10000)
                     .header("Accept-Encoding", "gzip, deflate, br, zstd")
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36")
                     .maxBodySize(Integer.MAX_VALUE)
@@ -66,7 +67,7 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
                 String salary = vacancyElement.select(".salary").text();
                 vacancyDto.setSalary(!salary.isEmpty() ? salary : "0");
                 vacancyDto.setVacancyName(vacancyElement.select("div.title > a.vt").first().text().strip());
-                //vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
+                vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
                 vacancyDto.setSourceId(source);
 
                 Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);

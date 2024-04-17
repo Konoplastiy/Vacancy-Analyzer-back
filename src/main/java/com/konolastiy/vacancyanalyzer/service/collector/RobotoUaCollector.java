@@ -5,6 +5,7 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
+import com.konolastiy.vacancyanalyzer.service.VacancyService;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,15 +29,18 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
     private final String link;
     private final VacancyRepository vacancyRepository;
     private final VacancyMapper vacancyMapper;
+    private final VacancyService vacancyService;
 
     public RobotoUaCollector(Source source,
                              String link,
                              VacancyRepository vacancyRepository,
-                             VacancyMapper vacancyMapper) {
+                             VacancyMapper vacancyMapper,
+                             VacancyService vacancyService) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;
         this.vacancyMapper = vacancyMapper;
+        this.vacancyService = vacancyService;
     }
 
     @Override
@@ -80,9 +84,7 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
                 driverNextPage.get(vacancyDto.getUrlVacancy());
                 vacancyDto.setShortDescription(getShortDescription(driverNextPage));
 
-                // TODO FIX ShortDescription(rewrite)
-                //vacancyDto.setShortDescription(cardElement.findElement(By.cssSelector(".santa-mb-10 p")).getText().strip());
-
+                vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
                 vacancyDto.setSourceId(source);
 
                 Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
