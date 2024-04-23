@@ -26,7 +26,7 @@ public class InitializationData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (ddlAuto.startsWith("create")) {
+        if (ddlAuto.startsWith("create-drop")) {
             Source source1 = new Source();
             source1.setName(Platform.ROBOTAUA);
             source1.setLink(Platform.ROBOTAUA.getLink());

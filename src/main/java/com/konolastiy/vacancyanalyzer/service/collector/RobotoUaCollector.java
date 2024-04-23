@@ -88,7 +88,7 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
                 vacancyDto.setSourceId(source);
 
                 Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
-                vacancy.setSource(vacancyDto.getSourceId());
+                vacancy.setSource(source);
                 vacancies.add(vacancy);
             }
 
