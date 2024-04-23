@@ -1,6 +1,7 @@
 package com.konolastiy.vacancyanalyzer.repository;
 
 
+import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,6 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
             "OR v.experienceLevel LIKE %:searchText% ORDER BY v.id ASC")
     Page<Vacancy> findAllVacanciesByValue(Pageable pageable,
                                           @Param("searchText") String searchText);
+
+    Integer countBySourceAndExperienceLevel(Source source, String experienceLevel);
 }

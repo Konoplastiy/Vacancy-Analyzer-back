@@ -38,7 +38,7 @@ public class VacancyService {
                 }
             }
         }
-        return "";
+        return "Others";
     }
 
 
