@@ -1,10 +1,7 @@
 package com.konolastiy.vacancyanalyzer.service;
 
-import com.konolastiy.vacancyanalyzer.common.mapper.PlatformInfoMapper;
-import com.konolastiy.vacancyanalyzer.entity.PlatformInfo;
 import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.payload.platform.PlatformInfoDto;
-import com.konolastiy.vacancyanalyzer.repository.PlatformInfoRepository;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
 import jakarta.transaction.Transactional;
@@ -14,14 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ExperienceLevelConstants.*;
+
 @Service
 @RequiredArgsConstructor
 public class PlatformInfoService {
 
-    private final PlatformInfoRepository platformInfoRepository;
     private final VacancyRepository vacancyRepository;
     private final SourceRepository sourceRepository;
-    private final PlatformInfoMapper platformInfoMapper;
 
     @Transactional
     public List<PlatformInfoDto> getPlatformCountsVacancies() {
@@ -29,22 +26,19 @@ public class PlatformInfoService {
         List<PlatformInfoDto> platformInfoList = new ArrayList<>();
 
         for (Source source : sources) {
-            PlatformInfo platformInfo = new PlatformInfo();
-            platformInfo.setPlatformName(source.getName().toString());
+            PlatformInfoDto platformInfoDto = new PlatformInfoDto();
+            platformInfoDto.setNamePlatform(source.getName().toString());
 
-            int seniorCount = vacancyRepository.countBySourceAndExperienceLevel(source, "Senior");
-            int middleCount = vacancyRepository.countBySourceAndExperienceLevel(source, "Middle");
-            int juniorCount = vacancyRepository.countBySourceAndExperienceLevel(source, "Junior");
-            int otherCount = vacancyRepository.countBySourceAndExperienceLevel(source, "Others");
+            Integer seniorCount = vacancyRepository.countBySourceAndExperienceLevel(source, SENIOR);
+            Integer middleCount = vacancyRepository.countBySourceAndExperienceLevel(source, MIDDLE);
+            Integer juniorCount = vacancyRepository.countBySourceAndExperienceLevel(source, JUNIOR);
+            Integer otherCount = vacancyRepository.countBySourceAndExperienceLevel(source, OTHERS);
 
-            platformInfo.setSeniorCount(seniorCount);
-            platformInfo.setMiddleCount(middleCount);
-            platformInfo.setJuniorCount(juniorCount);
-            platformInfo.setOtherCount(otherCount);
+            platformInfoDto.setSenior(seniorCount);
+            platformInfoDto.setMiddle(middleCount);
+            platformInfoDto.setJunior(juniorCount);
+            platformInfoDto.setOthers(otherCount);
 
-            platformInfoRepository.save(platformInfo);
-
-            PlatformInfoDto platformInfoDto = platformInfoMapper.toDto(platformInfo);
             platformInfoList.add(platformInfoDto);
         }
 

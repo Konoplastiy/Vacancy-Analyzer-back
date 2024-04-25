@@ -20,3 +20,16 @@ spring:
   h2:
     console:
       enabled: true
+  #Email sender settings
+  mail:
+    host: smtp.gmail.com
+    username: mailsendertelegram@gmail.com
+    password: kuszoulyjsjuccuo
+    port: 587
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

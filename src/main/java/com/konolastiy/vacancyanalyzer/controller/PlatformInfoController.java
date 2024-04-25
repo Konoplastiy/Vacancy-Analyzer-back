@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/v1/platforms")
 @RequiredArgsConstructor
-@Slf4j
 public class PlatformInfoController {
 
     private final PlatformInfoService platformInfoService;
 
     @GetMapping()
     public ResponseEntity<List<PlatformInfoDto>> getAllPlatformCounts() {
-        List<PlatformInfoDto> platformInfoDtoList = platformInfoService.getPlatformCountsVacancies();
-        return ResponseEntity.ok().body(platformInfoDtoList);
+        List<PlatformInfoDto> response = platformInfoService.getPlatformCountsVacancies();
+        return ResponseEntity.ok().body(response);
     }
 }

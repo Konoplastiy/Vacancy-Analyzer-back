@@ -15,7 +15,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Schema(
+        name = "VacancyResponse",
+        description = "Schema to hold vacancy response information"
+)
 public class VacancyDto {
 
     @NotBlank(message = "Vacancy name must not be blank")
