@@ -1,5 +1,6 @@
 package com.konolastiy.vacancyanalyzer.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.konolastiy.vacancyanalyzer.common.enums.Platform;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
 public class Source {
 
     @Id

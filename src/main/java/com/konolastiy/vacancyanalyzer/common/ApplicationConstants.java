@@ -49,4 +49,12 @@ public class ApplicationConstants {
         public static final String SOURCE_NOT_FOUND_MESSAGE = "Source with id %d not found";
     }
 
+    @UtilityClass
+    public class ExperienceLevelConstants  {
+        public static final String SENIOR = "Senior";
+        public static final String MIDDLE = "Middle";
+        public static final String JUNIOR = "Junior";
+        public static final String OTHERS = "Others";
+    }
+
 }
