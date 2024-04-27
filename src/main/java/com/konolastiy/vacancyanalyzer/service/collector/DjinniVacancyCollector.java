@@ -5,6 +5,7 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
+import com.konolastiy.vacancyanalyzer.service.VacancyService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,15 +25,18 @@ public class DjinniVacancyCollector implements Callable<List<Vacancy>> {
     private final String link;
     private final VacancyRepository vacancyRepository;
     private final VacancyMapper vacancyMapper;
+    private final VacancyService vacancyService;
 
     public DjinniVacancyCollector(Source source,
                                   String link,
                                   VacancyRepository vacancyRepository,
-                                  VacancyMapper vacancyMapper) {
+                                  VacancyMapper vacancyMapper,
+                                  VacancyService vacancyService) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;
         this.vacancyMapper = vacancyMapper;
+        this.vacancyService = vacancyService;
     }
 
     @Override
@@ -63,10 +67,11 @@ public class DjinniVacancyCollector implements Callable<List<Vacancy>> {
             vacancyDto.setCityName(element.select("span.location-text").text().strip());
             vacancyDto.setShortDescription(element.select("div.job-list-item__description").text().strip());
             vacancyDto.setUrlVacancy(DJINNI_HOME_PAGE_URL + linkVacancy.attr("href"));
+            vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
             vacancyDto.setSourceId(source);
 
             Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
-            vacancy.setSource(vacancyDto.getSourceId());
+            vacancy.setSource(source);
             vacancies.add(vacancy);
         }
 

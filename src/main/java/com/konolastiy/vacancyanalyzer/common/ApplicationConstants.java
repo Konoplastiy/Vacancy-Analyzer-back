@@ -34,6 +34,7 @@ public class ApplicationConstants {
     public class ConfigConstants {
         public static final Integer THREAD_POOL_SIZE = 3;
         public static final String CHROME_DRIVER_NAME = "webdriver.chrome.driver";
+        public static final String[] HTTP_METHODS = {"POST", "GET", "DELETE", "PUT"};
     }
 
     /**
