@@ -11,13 +11,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @Validated
@@ -43,14 +43,14 @@ public class BlogController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(summary = "Find all Blogs")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Blogs are found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     @GetMapping
-    public ResponseEntity<List<BlogDto>> findAllBlogs(
-            @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "20") Integer size
-    ) {
-
-        List<Blog> blog = blogService.findAllBlogs(PageRequest.of(page, size));
-        List<BlogDto> response = blogMapper.listBlogsFromDto(blog);
+    public ResponseEntity<Page<BlogDto>> findAllBlogs(@PageableDefault final Pageable pageable) {
+        Page<BlogDto> response = blogService.findAllBlogs(pageable).map(blogMapper::blogToDto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

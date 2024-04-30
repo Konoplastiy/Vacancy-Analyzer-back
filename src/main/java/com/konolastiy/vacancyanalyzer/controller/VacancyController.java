@@ -3,6 +3,10 @@ package com.konolastiy.vacancyanalyzer.controller;
 import com.konolastiy.vacancyanalyzer.common.mapper.VacancyMapper;
 import com.konolastiy.vacancyanalyzer.payload.vacancy.VacancyDto;
 import com.konolastiy.vacancyanalyzer.service.VacancyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -25,22 +29,20 @@ public class VacancyController {
     private final VacancyMapper vacancyMapper;
     private final VacancyService vacancyService;
 
+    @Operation(summary = "Find all Vacancies")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Vacancies are found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
     @GetMapping
     @CrossOrigin(origins = FRONT_URL)
     public ResponseEntity<Page<VacancyDto>> findAllByValue(@PageableDefault final Pageable pageable,
-                                                           @RequestParam(name = "searchText",
-                                                                   required = false) final String searchText) {
-        if (searchText == null || searchText.isEmpty()) {
-            final Page<VacancyDto> vacancies = vacancyService.findAllVacancies(pageable).map(vacancyMapper::vacancyToDto);
-            log.info("Vacancies were found : {}.\n Size of page = {}. Page number = {}. Page sort = {}", vacancies,
-                    pageable.getPageSize(), pageable.getPageNumber(), pageable.getSort());
-            return new ResponseEntity<>(vacancies, HttpStatus.OK);
-        }
-
-        final Page<VacancyDto> vacancies = vacancyService.findAllVacancies(pageable, searchText).map(vacancyMapper::vacancyToDto);
-        log.info(
-                "By value: {} was found vacancies: {}.\n Size of page = {}. Page number = {}. Page sort = {}",
+                                                           @RequestParam(name = "searchText", required = false) final String searchText) {
+        final Page<VacancyDto> vacancies = vacancyService
+                .findAllVacancies(pageable, searchText)
+                .map(vacancyMapper::vacancyToDto);
+        log.info("By value: {} was found vacancies: {}. Size of page = {}. Page number = {}. Page sort = {}",
                 searchText, vacancies, pageable.getPageSize(), pageable.getPageNumber(), pageable.getSort());
-        return new ResponseEntity<>((vacancies), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(vacancies);
     }
 }

@@ -5,11 +5,9 @@ import com.konolastiy.vacancyanalyzer.repository.BlogRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +21,7 @@ public class BlogService {
     }
 
     @Transactional(readOnly = true)
-    public List<Blog> findAllBlogs(final PageRequest pageRequest) {
-       Page<Blog> page = blogRepository.findAll(pageRequest);
-       return page.getContent();
+    public Page<Blog> findAllBlogs(final Pageable pageable) {
+       return blogRepository.findAll(pageable);
     }
 }

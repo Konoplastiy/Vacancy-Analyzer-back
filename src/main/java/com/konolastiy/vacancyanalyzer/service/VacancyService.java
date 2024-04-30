@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -43,15 +44,12 @@ public class VacancyService {
         return "Others";
     }
 
-
-    @Nullable
     @Transactional(readOnly = true)
     public Page<Vacancy> findAllVacancies(final Pageable pageable, final String searchText) {
-        return vacancyRepository.findAllVacanciesByValue(pageable, searchText);
-    }
-
-    @Transactional(readOnly = true)
-    public Page<Vacancy> findAllVacancies(final Pageable pageable) {
-        return vacancyRepository.findAll(pageable);
+        if (StringUtils.isEmpty(searchText)) {
+            return vacancyRepository.findAll(pageable);
+        } else {
+            return vacancyRepository.findAllVacanciesByValue(pageable, searchText);
+        }
     }
 }
