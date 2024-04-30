@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class VacancyService {
     private final ObjectMapper objectMapper;
     private final VacancyRepository vacancyRepository;
 
+    @Transactional
     public String vacancySetExperience(VacancyDto vacancyDto) throws IOException {
         Map<String, String[]> experienceLevels = objectMapper.readValue(
                 getClass().getResourceAsStream("/json/experience_levels.json"),
@@ -43,12 +45,13 @@ public class VacancyService {
 
 
     @Nullable
-    public Page<Vacancy> findAll(final Pageable pageable, final String searchText) {
+    @Transactional(readOnly = true)
+    public Page<Vacancy> findAllVacancies(final Pageable pageable, final String searchText) {
         return vacancyRepository.findAllVacanciesByValue(pageable, searchText);
     }
 
-
-    public Page<Vacancy> findAll(final Pageable pageable) {
+    @Transactional(readOnly = true)
+    public Page<Vacancy> findAllVacancies(final Pageable pageable) {
         return vacancyRepository.findAll(pageable);
     }
 }

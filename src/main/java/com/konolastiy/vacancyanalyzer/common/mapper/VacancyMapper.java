@@ -9,9 +9,9 @@ import org.mapstruct.Mapping;
 public interface VacancyMapper {
 
     @Mapping(source = "sourceId", target = "source")
-    Vacancy fromDto(VacancyDto vacancyDto);
+    Vacancy vacancyFromDto(VacancyDto vacancyDto);
 
     @Mapping(source = "source", target = "sourceId")
-    VacancyDto toDto(Vacancy vacancy);
+    VacancyDto vacancyToDto(Vacancy vacancy);
 }
 

@@ -8,6 +8,10 @@ services:
       SPRING_PROFILES_ACTIVE: local
     ports:
       - 8081:8081
+    depends_on:
+      - selenium
+    volumes:
+      - ./src/main/resources:/src/main/resources
     networks:
       - backend
 
@@ -22,6 +26,26 @@ services:
       - backapp
     networks:
       - backend
+
+  selenium:
+    image: selenium/standalone-chrome:latest
+    container_name: selenium
+    ports:
+      - 4444:4444
+      - 4443:4443
+      - 4442:4442
+    networks:
+      - backend
+
+  chrome:
+    image: selenium/node-chrome:latest
+    shm_size: 2g
+    depends_on:
+      - selenium
+    environment:
+      - SE_EVENT-BUS_HOST=selenium
+      - SE_EVENT-BUS_PUBLISH_PORT=4442
+      - SE_EVENT-BUS_SUBSCRIBE_PORT=4443
 
 networks:
   backend:

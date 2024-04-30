@@ -87,7 +87,7 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
                 vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
                 vacancyDto.setSourceId(source);
 
-                Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
+                Vacancy vacancy = vacancyMapper.vacancyFromDto(vacancyDto);
                 vacancy.setSource(source);
                 vacancies.add(vacancy);
             }
