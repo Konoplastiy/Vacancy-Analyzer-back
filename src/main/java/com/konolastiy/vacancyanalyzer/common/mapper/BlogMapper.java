@@ -12,6 +12,4 @@ public interface BlogMapper {
     Blog blogFromDto(BlogDto blogDto);
 
     BlogDto blogToDto(Blog blog);
-
-    List<BlogDto> listBlogsFromDto(List<Blog> blogs);
 }

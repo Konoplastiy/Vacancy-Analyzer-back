@@ -18,4 +18,5 @@ public interface VacancyRepository extends JpaRepository<Vacancy, Long> {
                                           @Param("searchText") String searchText);
 
     Integer countBySourceAndExperienceLevel(Source source, String experienceLevel);
+
 }

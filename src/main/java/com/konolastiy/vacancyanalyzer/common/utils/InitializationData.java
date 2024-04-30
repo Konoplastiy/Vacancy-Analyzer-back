@@ -55,10 +55,9 @@ public class InitializationData implements CommandLineRunner {
                 blogi.setDatePublic(LocalDate.now());
                 blog.add(blogi);
                 blogRepository.saveAll(blog);
-
             }
 
-            //robotaUaService.getAllVacanciesRobotaUa();
+            robotaUaService.getAllVacanciesRobotaUa();
             //douService.getAllVacanciesDouUa();
             //djinniService.getAllVacanciesDjinni();
         }
