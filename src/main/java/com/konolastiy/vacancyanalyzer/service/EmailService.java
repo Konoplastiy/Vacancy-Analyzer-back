@@ -1,5 +1,6 @@
 package com.konolastiy.vacancyanalyzer.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
@@ -17,6 +18,7 @@ public class EmailService {
     private final MailSender mailSender;
 
     @Async
+    @Transactional
     public void send(@NonNull final String to,
                      @NonNull final String subject,
                      @NonNull final String content

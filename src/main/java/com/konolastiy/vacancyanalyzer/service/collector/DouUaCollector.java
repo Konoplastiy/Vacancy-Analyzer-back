@@ -70,7 +70,7 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
                 vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
                 vacancyDto.setSourceId(source);
 
-                Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
+                Vacancy vacancy = vacancyMapper.vacancyFromDto(vacancyDto);
                 vacancy.setSource(vacancyDto.getSourceId());
                 vacancies.add(vacancy);
             }

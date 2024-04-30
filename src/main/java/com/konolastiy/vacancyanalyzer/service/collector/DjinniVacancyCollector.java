@@ -52,6 +52,7 @@ public class DjinniVacancyCollector implements Callable<List<Vacancy>> {
                 .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0")
                 .maxBodySize(Integer.MAX_VALUE)
                 .followRedirects(true)
+                .timeout(25000)
                 .get();
 
         Elements vacanciesOnPage = page.select(".list-jobs__item.job-list__item");
@@ -70,7 +71,7 @@ public class DjinniVacancyCollector implements Callable<List<Vacancy>> {
             vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
             vacancyDto.setSourceId(source);
 
-            Vacancy vacancy = vacancyMapper.fromDto(vacancyDto);
+            Vacancy vacancy = vacancyMapper.vacancyFromDto(vacancyDto);
             vacancy.setSource(source);
             vacancies.add(vacancy);
         }

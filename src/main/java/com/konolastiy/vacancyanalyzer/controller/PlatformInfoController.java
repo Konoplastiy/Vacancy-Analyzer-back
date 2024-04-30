@@ -5,6 +5,7 @@ import com.konolastiy.vacancyanalyzer.service.PlatformInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import java.util.List;
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.FRONT_URL;
 
 @Slf4j
+@Validated
 @RestController
 @RequestMapping(value = "/api/v1/platforms")
 @RequiredArgsConstructor

@@ -1,7 +1,9 @@
 package com.konolastiy.vacancyanalyzer.common.utils;
 
 import com.konolastiy.vacancyanalyzer.common.enums.Platform;
+import com.konolastiy.vacancyanalyzer.entity.Blog;
 import com.konolastiy.vacancyanalyzer.entity.Source;
+import com.konolastiy.vacancyanalyzer.repository.BlogRepository;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
 import com.konolastiy.vacancyanalyzer.service.DjinniService;
 import com.konolastiy.vacancyanalyzer.service.DouService;
@@ -11,7 +13,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -23,6 +28,7 @@ public class InitializationData implements CommandLineRunner {
     private final RobotaUaService robotaUaService;
     private final DouService douService;
     private final DjinniService djinniService;
+    private final BlogRepository blogRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -41,7 +47,18 @@ public class InitializationData implements CommandLineRunner {
 
             sourceRepository.saveAll(Arrays.asList(source1, source2, source3));
 
-            robotaUaService.getAllVacanciesRobotaUa();
+            for (int i = 0; i < 15; i++) {
+                List<Blog> blog = new ArrayList<>();
+                Blog blogi= new Blog();
+                blogi.setTitle("Test Title " + i);
+                blogi.setContent("Test Content " + i);
+                blogi.setDatePublic(LocalDate.now());
+                blog.add(blogi);
+                blogRepository.saveAll(blog);
+
+            }
+
+            //robotaUaService.getAllVacanciesRobotaUa();
             //douService.getAllVacanciesDouUa();
             //djinniService.getAllVacanciesDjinni();
         }

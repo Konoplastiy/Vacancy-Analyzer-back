@@ -10,14 +10,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.FRONT_URL;
 
+@Slf4j
+@Validated
 @RestController
 @RequestMapping(value = "/api/v1/vacancies")
 @RequiredArgsConstructor
-@Slf4j
 public class VacancyController {
 
     private final VacancyMapper vacancyMapper;
@@ -29,13 +31,13 @@ public class VacancyController {
                                                            @RequestParam(name = "searchText",
                                                                    required = false) final String searchText) {
         if (searchText == null || searchText.isEmpty()) {
-            final Page<VacancyDto> vacancies = vacancyService.findAll(pageable).map(vacancyMapper::toDto);
+            final Page<VacancyDto> vacancies = vacancyService.findAllVacancies(pageable).map(vacancyMapper::vacancyToDto);
             log.info("Vacancies were found : {}.\n Size of page = {}. Page number = {}. Page sort = {}", vacancies,
                     pageable.getPageSize(), pageable.getPageNumber(), pageable.getSort());
             return new ResponseEntity<>(vacancies, HttpStatus.OK);
         }
 
-        final Page<VacancyDto> vacancies = vacancyService.findAll(pageable, searchText).map(vacancyMapper::toDto);
+        final Page<VacancyDto> vacancies = vacancyService.findAllVacancies(pageable, searchText).map(vacancyMapper::vacancyToDto);
         log.info(
                 "By value: {} was found vacancies: {}.\n Size of page = {}. Page number = {}. Page sort = {}",
                 searchText, vacancies, pageable.getPageSize(), pageable.getPageNumber(), pageable.getSort());
