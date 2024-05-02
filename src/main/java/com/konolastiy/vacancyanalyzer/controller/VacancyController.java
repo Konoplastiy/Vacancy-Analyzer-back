@@ -15,9 +15,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.FRONT_URL;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Validated
@@ -35,7 +36,6 @@ public class VacancyController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
     })
     @GetMapping
-    @CrossOrigin(origins = FRONT_URL)
     public ResponseEntity<Page<VacancyDto>> findAllByValue(@PageableDefault final Pageable pageable,
                                                            @RequestParam(name = "searchText", required = false) final String searchText) {
         final Page<VacancyDto> vacancies = vacancyService

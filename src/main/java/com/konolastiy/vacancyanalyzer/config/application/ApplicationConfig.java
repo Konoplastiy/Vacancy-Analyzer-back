@@ -10,9 +10,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ConfigConstants.HTTP_METHODS;
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.FRONT_URL;
@@ -35,10 +36,23 @@ public class ApplicationConfig {
     }
 
     @Bean
+    public  WebMvcConfigurer corsConfig() {
+        return  new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins(FRONT_URL)
+                        .allowedMethods(HTTP_METHODS)
+                        .allowedHeaders("*");
+            }
+        };
+    }
+
+    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        configuration.setAllowedOrigins(Arrays.asList(Objects.requireNonNull(FRONT_URL)));
+        configuration.setAllowedOrigins(Arrays.asList((FRONT_URL)));
         configuration.setAllowedMethods(Arrays.asList(HTTP_METHODS));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         source.registerCorsConfiguration("/**", configuration);
