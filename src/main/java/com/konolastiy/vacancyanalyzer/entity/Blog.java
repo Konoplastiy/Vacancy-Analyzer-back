@@ -26,7 +26,7 @@ public class Blog extends BaseEntity {
 
     private String content;
 
-    private String img;
+    private byte[] img;
 
     private LocalDate datePublic;
 
