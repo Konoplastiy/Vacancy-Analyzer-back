@@ -2,6 +2,8 @@ package com.konolastiy.vacancyanalyzer.common;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.regex.Pattern;
+
 /**
  * Contains various constants used in the vacancy-analyzer application.
  */
@@ -23,8 +25,14 @@ public class ApplicationConstants {
      * Constants related to dates and formatting.
      */
     @UtilityClass
-    public class DateConstants {
+    public class Validation {
         public static final String DATE_PATTERN = "yyyy-MM-dd HH:mm";
+
+        /**
+         * A regular expression for validating email addresses.
+         */
+        public static final String EMAIL_REGEX = "^[a-zA-Z0-9_!#$%&'*+/=?``{|}~^.-]+@[a-zA-Z0-9.-]+$";
+        public static final Pattern EMAIL_PATTERN = Pattern.compile(Validation.EMAIL_REGEX);
     }
 
     /**
@@ -48,10 +56,11 @@ public class ApplicationConstants {
          */
         public static final String NO_DESCRIPTION_FOUND_MESSAGE = "Unfortunately, no description was found for this vacancy.";
         public static final String SOURCE_NOT_FOUND_MESSAGE = "Source with id %d not found";
+        public static final String SUBSCRIBER_ALREADY_EXITS_MESSAGE = "The subscriber already exists with email: %s";
     }
 
     @UtilityClass
-    public class ExperienceLevelConstants  {
+    public class ExperienceLevelConstants {
         public static final String SENIOR = "Senior";
         public static final String MIDDLE = "Middle";
         public static final String JUNIOR = "Junior";
