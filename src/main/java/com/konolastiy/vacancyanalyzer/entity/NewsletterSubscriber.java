@@ -6,28 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Data
-public class Blog extends BaseEntity {
+@Builder
+public class NewsletterSubscriber extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-
-    private String content;
-
-    @Lob
-    private byte[] img;
-
-    private LocalDate datePublic;
-
-    private Integer countViews;
-
+    private String email;
 }
