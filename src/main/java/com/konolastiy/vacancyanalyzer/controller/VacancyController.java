@@ -37,12 +37,14 @@ public class VacancyController {
     })
     @GetMapping
     public ResponseEntity<Page<VacancyDto>> findAllByValue(@PageableDefault final Pageable pageable,
-                                                           @RequestParam(name = "searchText", required = false) final String searchText) {
+                                                           @RequestParam(name = "searchText", required = false) final String searchText,
+                                                           @RequestParam(name = "experienceLevel", required = false) final String experienceLevel,
+                                                           @RequestParam(name = "sourceId", required = false) final Integer sourceId) {
         final Page<VacancyDto> vacancies = vacancyService
-                .findAllVacancies(pageable, searchText)
+                .findAllVacancies(pageable, searchText, experienceLevel, sourceId)
                 .map(vacancyMapper::vacancyToDto);
-        log.info("By value: {} was found vacancies: {}. Size of page = {}. Page number = {}. Page sort = {}",
-                searchText, vacancies, pageable.getPageSize(), pageable.getPageNumber(), pageable.getSort());
+        log.info("Search Text: {}, Experience Level: {}, Source ID: {}, Found Vacancies: {}, Page Size: {}, Page Number: {}, Page Sort: {}",
+                searchText, experienceLevel, sourceId, vacancies.getTotalElements(), pageable.getPageSize(), pageable.getPageNumber(), pageable.getSort());
         return ResponseEntity.status(HttpStatus.OK).body(vacancies);
     }
 }

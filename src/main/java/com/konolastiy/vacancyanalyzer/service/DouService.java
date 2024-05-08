@@ -6,12 +6,13 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
-import com.konolastiy.vacancyanalyzer.service.collector.DouUaCollector;
+import com.konolastiy.vacancyanalyzer.service.collector.DouUaVacanciesCollector;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class DouService {
 
     private static final Logger logger = LoggerFactory.getLogger(DouService.class);
 
+    @Async
     @Transactional
     public void getAllVacanciesDouUa() {
         Source source = sourceRepository.findById(3)
@@ -46,7 +48,7 @@ public class DouService {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
         for (int i = 1; i <= 50; i++) {
-            tasks.add(new DouUaCollector(source,
+            tasks.add(new DouUaVacanciesCollector(source,
                     link,
                     vacancyRepository,
                     vacancyMapper,

@@ -32,7 +32,7 @@ public class PlatformInfoService {
             Integer seniorCount = vacancyRepository.countBySourceAndExperienceLevel(source, SENIOR);
             Integer middleCount = vacancyRepository.countBySourceAndExperienceLevel(source, MIDDLE);
             Integer juniorCount = vacancyRepository.countBySourceAndExperienceLevel(source, JUNIOR);
-            Integer otherCount = vacancyRepository.countBySourceAndExperienceLevel(source, OTHERS);
+            Integer otherCount = vacancyRepository.countBySourceAndExperienceLevel(source, DEFAULT_EXPERIENCE_LEVEL);
 
             platformInfoDto.setSenior(seniorCount);
             platformInfoDto.setMiddle(middleCount);

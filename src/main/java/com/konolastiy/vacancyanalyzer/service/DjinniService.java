@@ -6,12 +6,13 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
-import com.konolastiy.vacancyanalyzer.service.collector.DjinniVacancyCollector;
+import com.konolastiy.vacancyanalyzer.service.collector.WorkUaVacanciesCollector;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class DjinniService {
 
     private static final Logger logger = LoggerFactory.getLogger(DjinniService.class);
 
+    @Async
     @Transactional
     public void getAllVacanciesDjinni() {
         Source source = sourceRepository.findById(2)
@@ -47,7 +49,7 @@ public class DjinniService {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
         for (int i = 1; i <= 40; i++) {
-            tasks.add(new DjinniVacancyCollector(source, link + i, vacancyRepository, vacancyMapper, vacancyService));
+            tasks.add(new WorkUaVacanciesCollector(source, link + i, vacancyRepository, vacancyMapper, vacancyService));
         }
 
         try {

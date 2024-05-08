@@ -23,7 +23,7 @@ import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ConfigC
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ErrorMessageConstants.NO_DESCRIPTION_FOUND_MESSAGE;
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.CHROME_DRIVER_PATH;
 
-public class RobotoUaCollector implements Callable<List<Vacancy>> {
+public class RobotoUaVacanciesCollector implements Callable<List<Vacancy>> {
 
     private final Source source;
     private final String link;
@@ -31,11 +31,11 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
     private final VacancyMapper vacancyMapper;
     private final VacancyService vacancyService;
 
-    public RobotoUaCollector(Source source,
-                             String link,
-                             VacancyRepository vacancyRepository,
-                             VacancyMapper vacancyMapper,
-                             VacancyService vacancyService) {
+    public RobotoUaVacanciesCollector(Source source,
+                                      String link,
+                                      VacancyRepository vacancyRepository,
+                                      VacancyMapper vacancyMapper,
+                                      VacancyService vacancyService) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;
@@ -60,7 +60,6 @@ public class RobotoUaCollector implements Callable<List<Vacancy>> {
             driver.get(link);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.presenceOfElementLocated(By.className("card")));
-
             List<WebElement> cardElements = driver.findElements(By.className("card"));
             for (WebElement cardElement : cardElements) {
                 VacancyDto vacancyDto = new VacancyDto();
