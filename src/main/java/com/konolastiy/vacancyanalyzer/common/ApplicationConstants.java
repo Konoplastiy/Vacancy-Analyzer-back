@@ -19,6 +19,9 @@ public class ApplicationConstants {
         public static final String GOOGLE_HOME_URL = "https://www.google.com";
         public static final String DJINNI_HOME_PAGE_URL = "https://djinni.co";
         public static final String CHROME_DRIVER_PATH = "src/main/resources/chromedriver.exe";
+        public static final String EXPERIENCE_LEVELS_JSON = "/json/ExperienceLevels.json";
+        public static final String PROGRAMMING_LANGUAGE_JSON = "/json/ExperienceLevels.json";
+
     }
 
     /**
@@ -64,7 +67,7 @@ public class ApplicationConstants {
         public static final String SENIOR = "Senior";
         public static final String MIDDLE = "Middle";
         public static final String JUNIOR = "Junior";
-        public static final String OTHERS = "Others";
+        public static final String DEFAULT_EXPERIENCE_LEVEL = "Others";
     }
 
 }

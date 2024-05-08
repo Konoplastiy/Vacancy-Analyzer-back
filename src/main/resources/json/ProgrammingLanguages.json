@@ -1,0 +1,89 @@
+{
+  "Java": [
+    "java",
+    "java se",
+    "java ee",
+    "j2ee",
+    "j2se",
+    "spring"
+  ],
+  "JavaScript": [
+    "javascript",
+    "js",
+    "ecmascript",
+    "es6",
+    "vue",
+    "react",
+    "angular",
+    "node"
+  ],
+  "Python": [
+    "python",
+    "python 3",
+    "python 2.7",
+    "django"
+  ],
+  "C#": [
+    "c#",
+    "c sharp",
+    "c#.net"
+  ],
+  "C++": [
+    "c++",
+    "cpp",
+    "c plus plus"
+  ],
+  "Ruby": [
+    "ruby",
+    "ruby on rails"
+  ],
+  "PHP": [
+    "php",
+    "php7",
+    "php5"
+  ],
+  "Swift": [
+    "swift"
+  ],
+  "Kotlin": [
+    "kotlin",
+    "android"
+  ],
+  "Go": [
+    "go",
+    "golang"
+  ],
+  "Rust": [
+    "rust"
+  ],
+  "TypeScript": [
+    "typescript",
+    "ts"
+  ],
+  "Scala": [
+    "scala"
+  ],
+  "Objective-C": [
+    "objective-c",
+    "obj-c",
+    "objc"
+  ],
+  "Perl": [
+    "perl"
+  ],
+  "R": [
+    "r"
+  ],
+  "MATLAB": [
+    "matlab"
+  ],
+  "Dart": [
+    "dart"
+  ],
+  "Lua": [
+    "lua"
+  ],
+  "Haskell": [
+    "haskell"
+  ]
+}

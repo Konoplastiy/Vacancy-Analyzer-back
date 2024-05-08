@@ -7,6 +7,7 @@ import com.konolastiy.vacancyanalyzer.repository.BlogRepository;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
 import com.konolastiy.vacancyanalyzer.service.DjinniService;
 import com.konolastiy.vacancyanalyzer.service.DouService;
+import com.konolastiy.vacancyanalyzer.service.JobCollectionService;
 import com.konolastiy.vacancyanalyzer.service.RobotaUaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +30,7 @@ public class InitializationData implements CommandLineRunner {
     private final DouService douService;
     private final DjinniService djinniService;
     private final BlogRepository blogRepository;
+    private final JobCollectionService jobCollectionService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -56,10 +58,9 @@ public class InitializationData implements CommandLineRunner {
                 blog.add(blogi);
                 blogRepository.saveAll(blog);
             }
-
-            robotaUaService.getAllVacanciesRobotaUa();
-            //douService.getAllVacanciesDouUa();
-            //djinniService.getAllVacanciesDjinni();
+            douService.getAllVacanciesDouUa();
+            //jobCollectionService.fetchAllVacanciesFromAllPlatforms();
+            //robotaUaService.getAllVacanciesRobotaUa();
         }
     }
 }

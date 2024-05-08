@@ -18,7 +18,7 @@ import java.util.concurrent.Callable;
 
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.GOOGLE_HOME_URL;
 
-public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanalyzer.entity.Vacancy>> {
+public class DouUaVacanciesCollector implements Callable<List<Vacancy>> {
 
     private final Source source;
     private final String link;
@@ -26,11 +26,11 @@ public class DouUaCollector implements Callable<List<com.konolastiy.vacancyanaly
     private final VacancyMapper vacancyMapper;
     private final VacancyService vacancyService;
 
-    public DouUaCollector(Source source,
-                          String link,
-                          VacancyRepository vacancyRepository,
-                          VacancyMapper vacancyMapper,
-                          VacancyService vacancyService) {
+    public DouUaVacanciesCollector(Source source,
+                                   String link,
+                                   VacancyRepository vacancyRepository,
+                                   VacancyMapper vacancyMapper,
+                                   VacancyService vacancyService) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;

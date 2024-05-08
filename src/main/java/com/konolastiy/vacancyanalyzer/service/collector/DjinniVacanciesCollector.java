@@ -19,7 +19,7 @@ import java.util.concurrent.Callable;
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.DJINNI_HOME_PAGE_URL;
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.GOOGLE_HOME_URL;
 
-public class DjinniVacancyCollector implements Callable<List<Vacancy>> {
+public class DjinniVacanciesCollector implements Callable<List<Vacancy>> {
 
     private final Source source;
     private final String link;
@@ -27,11 +27,11 @@ public class DjinniVacancyCollector implements Callable<List<Vacancy>> {
     private final VacancyMapper vacancyMapper;
     private final VacancyService vacancyService;
 
-    public DjinniVacancyCollector(Source source,
-                                  String link,
-                                  VacancyRepository vacancyRepository,
-                                  VacancyMapper vacancyMapper,
-                                  VacancyService vacancyService) {
+    public DjinniVacanciesCollector(Source source,
+                                    String link,
+                                    VacancyRepository vacancyRepository,
+                                    VacancyMapper vacancyMapper,
+                                    VacancyService vacancyService) {
         this.source = source;
         this.link = link;
         this.vacancyRepository = vacancyRepository;
