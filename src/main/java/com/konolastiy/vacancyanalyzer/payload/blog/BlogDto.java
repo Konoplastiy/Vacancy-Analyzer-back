@@ -33,7 +33,7 @@ public class BlogDto {
 
     @NotBlank
     @Schema(description = "Image of the blog", example = "image.jpg", required = true)
-    private byte[] img;
+    private String img;
 
     @NotNull
     @Schema(description = "Date when the blog was published", example = "2024-04-30", required = true)

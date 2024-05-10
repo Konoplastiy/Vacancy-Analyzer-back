@@ -23,8 +23,7 @@ public class Blog extends BaseEntity {
 
     private String content;
 
-    @Lob
-    private byte[] img;
+    private String img;
 
     private LocalDate datePublic;
 
