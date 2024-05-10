@@ -49,18 +49,19 @@ public class InitializationData implements CommandLineRunner {
 
             sourceRepository.saveAll(Arrays.asList(source1, source2, source3));
 
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i < 25; i++) {
                 List<Blog> blog = new ArrayList<>();
                 Blog blogi= new Blog();
-                blogi.setTitle("Test Title " + i);
-                blogi.setContent("Test Content " + i);
+                blogi.setTitle("Як знайти роботу в IT 2024?");
+                blogi.setContent("Lorem ipsum dolor sit amet, consectetur adipisicing elit.");
                 blogi.setDatePublic(LocalDate.now());
+                blogi.setCountViews(87+i);
                 blog.add(blogi);
                 blogRepository.saveAll(blog);
             }
-            douService.getAllVacanciesDouUa();
+            //douService.getAllVacanciesDouUa();
             //jobCollectionService.fetchAllVacanciesFromAllPlatforms();
-            //robotaUaService.getAllVacanciesRobotaUa();
+            robotaUaService.getAllVacanciesRobotaUa();
         }
     }
 }
