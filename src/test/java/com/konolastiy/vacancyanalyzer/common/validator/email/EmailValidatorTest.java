@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @ExtendWith(MockitoExtension.class)
 public class EmailValidatorTest {
@@ -35,7 +35,7 @@ public class EmailValidatorTest {
     }
 
     static Stream<String> validEmailProvider() {
-        return Stream.of("firstlast@gmail.com",       // test default email
+        return Stream.of("firstlast@gmail.com",              // test default email
                 "123456789012345678901234@iana.org",         // test only numbers
                 "$A12345@iana.org",                          // test start with symbols
                 "!def!xyz%abc@example.com",                  // test start with symbols
@@ -45,13 +45,13 @@ public class EmailValidatorTest {
     }
 
     static Stream<String> invalidEmailProvider() {
-        return Stream.of("first.last",          // invalid, only name and dot
-                "doug@",                               // invalid, only name and @
-                "@iana.org",                           // invalid, start with @
-                "hello world@iana.org",                // invalid, space
-                "test@[123.123.123.123",               // invalid, at least one digit
-                "phil.h\\@\\@ck@haacked.com",          // invalid, add \\ and two @
-                " ",                                   // invalid, empty
-                "cal(foo(bar)@iamcal.com");            // invalid, brackets
+        return Stream.of("first.last",                       // invalid, only name and dot
+                "doug@",                                     // invalid, only name and @
+                "@iana.org",                                 // invalid, start with @
+                "hello world@iana.org",                      // invalid, space
+                "test@[123.123.123.123",                     // invalid, at least one digit
+                "phil.h\\@\\@ck@haacked.com",                // invalid, add \\ and two @
+                " ",                                         // invalid, empty
+                "cal(foo(bar)@iamcal.com");                  // invalid, brackets
     }
 }

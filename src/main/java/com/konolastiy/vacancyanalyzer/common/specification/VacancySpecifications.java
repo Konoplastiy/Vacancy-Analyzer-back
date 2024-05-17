@@ -25,11 +25,11 @@ public class VacancySpecifications {
                 experienceLevel == null ? null : builder.equal(root.get("experienceLevel"), experienceLevel);
     }
 
-    public static Specification<Vacancy> hasSourceId(Integer sourceId) {
+    public static Specification<Vacancy> hasPlatformName(String platformName) {
         return (root, query, builder) -> {
-            if (sourceId == null) return null;
+            if (platformName == null) return null;
             Join<Vacancy, Source> sourceJoin = root.join("source");
-            return builder.equal(sourceJoin.get("id"), sourceId);
+            return builder.equal(sourceJoin.get("name"), platformName);
         };
     }
 }

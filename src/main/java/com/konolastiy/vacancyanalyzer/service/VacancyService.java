@@ -58,11 +58,11 @@ public class VacancyService {
     public Page<Vacancy> findAllVacancies(final Pageable pageable,
                                           final String searchText,
                                           final String experienceLevel,
-                                          final Integer sourceId) {
+                                          final String platformName) {
         Specification<Vacancy> spec = Specification.where(
                         VacancySpecifications.hasTextInAttributes(searchText))
                 .and(VacancySpecifications.hasExperienceLevel(experienceLevel))
-                .and(VacancySpecifications.hasSourceId(sourceId));
+                .and(VacancySpecifications.hasPlatformName(platformName));
 
         return vacancyRepository.findAll(spec, pageable);
     }

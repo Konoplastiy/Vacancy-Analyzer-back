@@ -6,7 +6,7 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
-import com.konolastiy.vacancyanalyzer.service.collector.RobotoUaVacanciesCollector;
+import com.konolastiy.vacancyanalyzer.service.collector.RobotaUaVacanciesCollector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class RobotaUaService {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
         for (int i = 1; i <= 200; i++) {
-            tasks.add(new RobotoUaVacanciesCollector(source,
+            tasks.add(new RobotaUaVacanciesCollector(source,
                     link + i,
                     vacancyRepository,
                     vacancyMapper,
