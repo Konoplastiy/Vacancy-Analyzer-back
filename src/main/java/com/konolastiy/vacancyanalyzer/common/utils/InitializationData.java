@@ -47,7 +47,11 @@ public class InitializationData implements CommandLineRunner {
             source3.setName(Platform.DOU);
             source3.setLink(Platform.DOU.getLink());
 
-            sourceRepository.saveAll(Arrays.asList(source1, source2, source3));
+            Source source4 = new Source();
+            source4.setName(Platform.WORKUA);
+            source4.setLink(Platform.WORKUA.getLink());
+
+            sourceRepository.saveAll(Arrays.asList(source1, source2, source3, source4));
 
             for (int i = 0; i < 25; i++) {
                 List<Blog> blog = new ArrayList<>();

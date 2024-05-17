@@ -39,12 +39,12 @@ public class VacancyController {
     public ResponseEntity<Page<VacancyDto>> findAllByValue(@PageableDefault final Pageable pageable,
                                                            @RequestParam(name = "searchText", required = false) final String searchText,
                                                            @RequestParam(name = "experienceLevel", required = false) final String experienceLevel,
-                                                           @RequestParam(name = "sourceId", required = false) final Integer sourceId) {
+                                                           @RequestParam(name = "sourceId", required = false) final String platformName) {
         final Page<VacancyDto> vacancies = vacancyService
-                .findAllVacancies(pageable, searchText, experienceLevel, sourceId)
+                .findAllVacancies(pageable, searchText, experienceLevel, platformName)
                 .map(vacancyMapper::vacancyToDto);
         log.info("Search Text: {}, Experience Level: {}, Source ID: {}, Found Vacancies: {}, Page Size: {}, Page Number: {}, Page Sort: {}",
-                searchText, experienceLevel, sourceId, vacancies.getTotalElements(), pageable.getPageSize(), pageable.getPageNumber(), pageable.getSort());
+                searchText, experienceLevel, platformName, vacancies.getTotalElements(), pageable.getPageSize(), pageable.getPageNumber(), pageable.getSort());
         return ResponseEntity.status(HttpStatus.OK).body(vacancies);
     }
 }

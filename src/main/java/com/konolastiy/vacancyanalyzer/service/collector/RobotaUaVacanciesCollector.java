@@ -23,7 +23,7 @@ import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ConfigC
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.ErrorMessageConstants.NO_DESCRIPTION_FOUND_MESSAGE;
 import static com.konolastiy.vacancyanalyzer.common.ApplicationConstants.UrlConstants.CHROME_DRIVER_PATH;
 
-public class RobotoUaVacanciesCollector implements Callable<List<Vacancy>> {
+public class RobotaUaVacanciesCollector implements Callable<List<Vacancy>> {
 
     private final Source source;
     private final String link;
@@ -31,7 +31,7 @@ public class RobotoUaVacanciesCollector implements Callable<List<Vacancy>> {
     private final VacancyMapper vacancyMapper;
     private final VacancyService vacancyService;
 
-    public RobotoUaVacanciesCollector(Source source,
+    public RobotaUaVacanciesCollector(Source source,
                                       String link,
                                       VacancyRepository vacancyRepository,
                                       VacancyMapper vacancyMapper,
@@ -83,6 +83,7 @@ public class RobotoUaVacanciesCollector implements Callable<List<Vacancy>> {
                 driverNextPage.get(vacancyDto.getUrlVacancy());
                 vacancyDto.setShortDescription(getShortDescription(driverNextPage));
 
+                vacancyDto.setProgrammingLanguage(vacancyService.vacancySetProgramingLanguage(vacancyDto));
                 vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
                 vacancyDto.setSourceId(source);
 

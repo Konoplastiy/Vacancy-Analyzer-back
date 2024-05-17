@@ -1,12 +1,4 @@
 {
-  "Java": [
-    "java",
-    "java se",
-    "java ee",
-    "j2ee",
-    "j2se",
-    "spring"
-  ],
   "JavaScript": [
     "javascript",
     "js",
@@ -15,7 +7,18 @@
     "vue",
     "react",
     "angular",
-    "node"
+    "node",
+    "frontend",
+    "front-end",
+    "фронденд"
+  ],
+  "Java": [
+    "java",
+    "java se",
+    "java ee",
+    "j2ee",
+    "j2se",
+    "spring"
   ],
   "Python": [
     "python",
@@ -85,5 +88,22 @@
   ],
   "Haskell": [
     "haskell"
+  ],
+  "C1": [
+    "1c",
+    "1с"
+  ],
+  "Wordpress": [
+    "wordpress"
+  ],
+  "Full Stack": [
+    "full stack",
+    "full",
+    "fullstack"
+  ],
+  "Data Engineer": [
+    "data engineer",
+    "database",
+    "data"
   ]
 }

@@ -48,7 +48,11 @@ public class WorkUaService {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
         for (int i = 1; i <= 50; i++) {
-            tasks.add(new DjinniVacanciesCollector(source, link + i, vacancyRepository, vacancyMapper, vacancyService));
+            tasks.add(new DjinniVacanciesCollector(source,
+                    link + i,
+                    vacancyRepository,
+                    vacancyMapper,
+                    vacancyService));
         }
 
         try {

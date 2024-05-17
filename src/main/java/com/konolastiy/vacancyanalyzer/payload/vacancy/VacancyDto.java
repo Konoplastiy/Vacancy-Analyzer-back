@@ -59,6 +59,10 @@ public class VacancyDto {
     @Schema(description = "English level required for the vacancy", example = "Intermediate")
     private String englishLevel;
 
+    @NotBlank(message = "Programming language must not be blank")
+    @Schema(description = "Programming language required for the vacancy", example = "Java")
+    private String programmingLanguage;
+
     @Schema(description = "Source of the vacancy", implementation = Source.class)
     private Source sourceId;
 }
