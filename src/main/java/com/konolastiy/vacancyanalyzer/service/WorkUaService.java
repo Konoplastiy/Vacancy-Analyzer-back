@@ -6,7 +6,7 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
-import com.konolastiy.vacancyanalyzer.service.collector.DjinniVacanciesCollector;
+import com.konolastiy.vacancyanalyzer.service.collector.WorkUaVacanciesCollector;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,8 +47,8 @@ public class WorkUaService {
 
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
-        for (int i = 1; i <= 50; i++) {
-            tasks.add(new DjinniVacanciesCollector(source,
+        for (int i = 1; i <= 45; i++) {
+            tasks.add(new WorkUaVacanciesCollector(source,
                     link + i,
                     vacancyRepository,
                     vacancyMapper,

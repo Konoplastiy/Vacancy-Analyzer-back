@@ -40,8 +40,6 @@ public class RobotaUaService {
     @Async
     @Transactional
     public void getAllVacanciesRobotaUa() {
-        int page = 1;
-
         Source source = sourceRepository.findById(1)
                 .orElseThrow(() -> new SourceNotFoundException(String.format(SOURCE_NOT_FOUND_MESSAGE, 1)));
 
@@ -57,6 +55,7 @@ public class RobotaUaService {
                     vacancyService)
             );
         }
+
         try {
             List<Future<List<Vacancy>>> futures = executorService.invokeAll(tasks);
 
