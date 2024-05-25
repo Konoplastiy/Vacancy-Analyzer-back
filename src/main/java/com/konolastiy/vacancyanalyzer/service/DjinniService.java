@@ -6,7 +6,7 @@ import com.konolastiy.vacancyanalyzer.entity.Source;
 import com.konolastiy.vacancyanalyzer.entity.Vacancy;
 import com.konolastiy.vacancyanalyzer.repository.SourceRepository;
 import com.konolastiy.vacancyanalyzer.repository.VacancyRepository;
-import com.konolastiy.vacancyanalyzer.service.collector.WorkUaVacanciesCollector;
+import com.konolastiy.vacancyanalyzer.service.collector.DjinniVacanciesCollector;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,12 @@ public class DjinniService {
         ExecutorService executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
         List<Callable<List<Vacancy>>> tasks = new ArrayList<>();
         for (int i = 1; i <= 40; i++) {
-            tasks.add(new WorkUaVacanciesCollector(source, link + i, vacancyRepository, vacancyMapper, vacancyService));
+            tasks.add(new DjinniVacanciesCollector(source,
+                    link + i,
+                    vacancyRepository,
+                    vacancyMapper,
+                    vacancyService)
+            );
         }
 
         try {
@@ -67,5 +72,4 @@ public class DjinniService {
             logger.warn("Thread interrupted while executing tasks: " + e.getMessage());
         }
     }
-
 }

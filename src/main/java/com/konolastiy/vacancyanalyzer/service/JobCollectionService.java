@@ -15,9 +15,9 @@ public class JobCollectionService {
 
     @Transactional
     public void fetchAllVacanciesFromAllPlatforms() {
-        djinniService.getAllVacanciesDjinni();
-        douService.getAllVacanciesDouUa();
-        robotaUaService.getAllVacanciesRobotaUa();
+//        djinniService.getAllVacanciesDjinni();
+//        douService.getAllVacanciesDouUa();
         workUaService.getAllVacanciesWorkUa();
+        robotaUaService.getAllVacanciesRobotaUa();
     }
 }

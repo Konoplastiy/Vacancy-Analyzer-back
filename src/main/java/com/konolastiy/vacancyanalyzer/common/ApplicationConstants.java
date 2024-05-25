@@ -22,6 +22,7 @@ public class ApplicationConstants {
         public static final String FRONT_URL = "http://localhost:4200";
         public static final String GOOGLE_HOME_URL = "https://www.google.com";
         public static final String DJINNI_HOME_PAGE_URL = "https://djinni.co";
+        public static final String WORK_HOME_PAGE_URL = "https://www.work.ua";
         public static final String CHROME_DRIVER_PATH = "src/main/resources/chromedriver.exe";
         public static final String EXPERIENCE_LEVELS_JSON = "/json/ExperienceLevels.json";
         public static final String PROGRAMMING_LANGUAGE_JSON = "/json/ProgrammingLanguages.json";
