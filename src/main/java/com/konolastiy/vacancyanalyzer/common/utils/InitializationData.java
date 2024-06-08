@@ -23,12 +23,8 @@ public class InitializationData implements CommandLineRunner {
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String ddlAuto;
     private final SourceRepository sourceRepository;
-    private final RobotaUaService robotaUaService;
-    private final DouService douService;
-    private final DjinniService djinniService;
     private final BlogRepository blogRepository;
     private final JobCollectionService jobCollectionService;
-    private final WorkUaService workUaService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -61,10 +57,8 @@ public class InitializationData implements CommandLineRunner {
                 blog.add(blogi);
                 blogRepository.saveAll(blog);
             }
-            //douService.getAllVacanciesDouUa();
+
             jobCollectionService.fetchAllVacanciesFromAllPlatforms();
-            //workUaService.getAllVacanciesWorkUa();
-            //robotaUaService.getAllVacanciesRobotaUa();
         }
     }
 }

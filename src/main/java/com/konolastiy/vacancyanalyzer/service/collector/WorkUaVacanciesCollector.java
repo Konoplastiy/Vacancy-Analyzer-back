@@ -66,12 +66,10 @@ public class WorkUaVacanciesCollector implements Callable<List<Vacancy>> {
                 WebElement linkElement = cardElement.findElement(By.cssSelector("h2 a"));
                 vacancyDto.setUrlVacancy(WORK_HOME_PAGE_URL + linkElement.getAttribute("href"));
                 vacancyDto.setVacancyName(linkElement.getText());
-                vacancyDto.setCompanyName(cardElement.findElement(By.cssSelector(".add-top-xs > span > span.strong-600")).getText());
-                vacancyDto.setDate(cardElement.findElement(By.cssSelector(".text-default-7.add-top")).getText());
+                vacancyDto.setCompanyName(cardElement.findElement(By.cssSelector("span > span.strong-600")).getText());
+                vacancyDto.setDate(cardElement.findElement(By.cssSelector("span.mt-lg")).getText());
                 vacancyDto.setShortDescription(cardElement.findElement(By.cssSelector(".ellipsis")).getText());
-
-                String city = cardElement.findElement(By.cssSelector(".add-top-xs > span:not(.add-right-xs)")).getText();
-                vacancyDto.setCityName(city.contains(vacancyDto.getCompanyName()) ? city.replaceAll(vacancyDto.getCompanyName(), "") : city);
+                vacancyDto.setCityName("Kyiv, Remote");
 
                 vacancyDto.setProgrammingLanguage(vacancyService.vacancySetProgramingLanguage(vacancyDto));
                 vacancyDto.setExperienceLevel(vacancyService.vacancySetExperience(vacancyDto));
