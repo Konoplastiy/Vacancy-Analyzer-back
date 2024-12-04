@@ -69,13 +69,21 @@
 ./mvnw clean install
 ./mvnw compile
 ```
+---
 
+## Test
+
+---
+
+```bash
+./mvnw clean test -Pcoverage
+```
 ---
 
 ## Profiles
 
 ```bash
-./mvnw clean install 
+./mvnw clean install
 ```
 
 > [Spring Profiles](https://www.baeldung.com/spring-profiles)

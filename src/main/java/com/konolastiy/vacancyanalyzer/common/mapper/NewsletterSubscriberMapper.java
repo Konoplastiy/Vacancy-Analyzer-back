@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface NewsletterSubscriberMapper {
 
-    NewsletterSubscriber subscriberFromDto(NewsletterSubscriberDto subscriberDto);
+  NewsletterSubscriber subscriberFromDto(NewsletterSubscriberDto subscriberDto);
 
-    NewsletterSubscriberDto subscriberToDto(NewsletterSubscriber subscriber);
+  NewsletterSubscriberDto subscriberToDto(NewsletterSubscriber subscriber);
 }

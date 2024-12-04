@@ -1,12 +1,11 @@
 package com.konolastiy.vacancyanalyzer.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
@@ -15,18 +14,17 @@ import java.time.LocalDate;
 @Data
 public class Blog extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String title;
+  private String title;
 
-    private String content;
+  private String content;
 
-    private String img;
+  private String img;
 
-    private LocalDate datePublic;
+  private LocalDate datePublic;
 
-    private Integer countViews;
-
+  private Integer countViews;
 }

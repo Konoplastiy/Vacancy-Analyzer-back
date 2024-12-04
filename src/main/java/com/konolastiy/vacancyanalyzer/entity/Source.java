@@ -13,15 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"}, ignoreUnknown = true)
+@JsonIgnoreProperties(
+    value = {"hibernateLazyInitializer", "handler"},
+    ignoreUnknown = true)
 public class Source {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
-    @Enumerated(EnumType.STRING)
-    private Platform name;
+  @Enumerated(EnumType.STRING)
+  private Platform name;
 
-    private String link;
+  private String link;
 }

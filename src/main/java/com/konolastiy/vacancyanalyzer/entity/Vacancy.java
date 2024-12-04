@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.validator.constraints.Length;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,35 +17,35 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 public class Vacancy extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String vacancyName;
-    private String cityName;
+  private String vacancyName;
+  private String cityName;
 
-    private String date;
+  private String date;
 
-    private String companyName;
+  private String companyName;
 
-    @Length(max = 400)
-    private String shortDescription;
+  @Length(max = 400)
+  private String shortDescription;
 
-    private String urlVacancy;
+  private String urlVacancy;
 
-    private String salary;
+  private String salary;
 
-    private String experienceLevel;
+  private String experienceLevel;
 
-    private String englishLevel;
+  private String englishLevel;
 
-    private String programmingLanguage;
+  private String programmingLanguage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "source_id")
-    @NotAudited
-    private Source source;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "source_id")
+  @NotAudited
+  private Source source;
 
-    @Column(name = "source_id", insertable = false, updatable = false)
-    private Integer source_id;
+  @Column(name = "source_id", insertable = false, updatable = false)
+  private Integer source_id;
 }

@@ -15,13 +15,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Schema(
-        name = "NewsletterSubscriberResponse",
-        description = "Schema to hold NewsletterSubscriber response information"
-)
+    name = "NewsletterSubscriberResponse",
+    description = "Schema to hold NewsletterSubscriber response information")
 public class NewsletterSubscriberDto {
 
-    @NotBlank
-    @ValidEmail
-    @Schema(description = "Email address of the subscriber", example = "example@example.com")
-    private String email;
+  @NotBlank
+  @ValidEmail
+  @Schema(description = "Email address of the subscriber", example = "example@example.com")
+  private String email;
 }

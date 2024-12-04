@@ -25,22 +25,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class NewsletterSubscriberController {
 
-    private final NewsletterSubscriberService newsletterSubscriberService;
-    private final NewsletterSubscriberMapper newsletterSubscriberMapper;
+  private final NewsletterSubscriberService newsletterSubscriberService;
+  private final NewsletterSubscriberMapper newsletterSubscriberMapper;
 
-    @Operation(summary = "Creates a new blog")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Subscription created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request, possibly already subscribed email"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
-    @PostMapping
-    public ResponseEntity<NewsletterSubscriberDto> createNewsletterSubscriber(
-            @RequestBody @Valid final NewsletterSubscriberDto subscriberDto) {
-        NewsletterSubscriber subscriber = newsletterSubscriberMapper.subscriberFromDto(subscriberDto);
-        NewsletterSubscriber savedSubscriber = newsletterSubscriberService.saveNewsletterSubscriber(subscriber);
-        NewsletterSubscriberDto responseDto = newsletterSubscriberMapper.subscriberToDto(savedSubscriber);
-        log.info("New subscriber with email: {} was created", savedSubscriber.getEmail());
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
-    }
+  @Operation(summary = "Creates a new blog")
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "201", description = "Subscription created successfully"),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid request, possibly already subscribed email"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+      })
+  @PostMapping
+  public ResponseEntity<NewsletterSubscriberDto> createNewsletterSubscriber(
+      @RequestBody @Valid final NewsletterSubscriberDto subscriberDto) {
+    NewsletterSubscriber subscriber = newsletterSubscriberMapper.subscriberFromDto(subscriberDto);
+    NewsletterSubscriber savedSubscriber =
+        newsletterSubscriberService.saveNewsletterSubscriber(subscriber);
+
+    log.info("New subscriber with email: {} was created", savedSubscriber.getEmail());
+    return ResponseEntity.status(HttpStatus.CREATED).body(subscriberDto);
+  }
 }

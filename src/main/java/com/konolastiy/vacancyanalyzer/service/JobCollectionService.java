@@ -8,16 +8,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class JobCollectionService {
 
-    private final DjinniService djinniService;
-    private final DouService douService;
-    private final RobotaUaService robotaUaService;
-    private final WorkUaService workUaService;
+  private final DjinniService djinniService;
+  private final DouService douService;
+  private final RobotaUaService robotaUaService;
+  private final WorkUaService workUaService;
 
-    @Transactional
-    public void fetchAllVacanciesFromAllPlatforms() {
-        //djinniService.getAllVacanciesDjinni();
-        //douService.getAllVacanciesDouUa();
-        robotaUaService.getAllVacanciesRobotaUa();
-        workUaService.getAllVacanciesWorkUa();
-    }
+  @Transactional
+  public void fetchAllVacanciesFromAllPlatforms() {
+    // djinniService.getAllVacanciesDjinni();
+    // douService.getAllVacanciesDouUa();
+    robotaUaService.getAllVacanciesRobotaUa();
+    //        workUaService.getAllVacanciesWorkUa();
+  }
 }

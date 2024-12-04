@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PlatformInfo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String platformName;
-    private Integer seniorCount;
-    private Integer middleCount;
-    private Integer juniorCount;
-    private Integer otherCount;
+  private String platformName;
+  private Integer seniorCount;
+  private Integer middleCount;
+  private Integer juniorCount;
+  private Integer otherCount;
 }

@@ -13,22 +13,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailService {
 
-    @Value("${spring.mail.username}")
-    private String from;
-    private final MailSender mailSender;
+  @Value("${spring.mail.username}")
+  private String from;
 
-    @Async
-    @Transactional
-    public void send(@NonNull final String to,
-                     @NonNull final String subject,
-                     @NonNull final String content
-    ) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(from);
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(content);
+  private final MailSender mailSender;
 
-        mailSender.send(message);
-    }
+  @Async
+  @Transactional
+  public void send(
+      @NonNull final String to, @NonNull final String subject, @NonNull final String content) {
+    SimpleMailMessage message = new SimpleMailMessage();
+    message.setFrom(from);
+    message.setTo(to);
+    message.setSubject(subject);
+    message.setText(content);
+
+    mailSender.send(message);
+  }
 }
