@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class VacancyAlreadyExistsException extends RuntimeException {
 
-    public VacancyAlreadyExistsException(String message) {
-        super(message);
-    }
+  public VacancyAlreadyExistsException(String message) {
+    super(message);
+  }
 }

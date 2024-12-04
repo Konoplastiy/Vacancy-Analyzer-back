@@ -27,24 +27,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class VacancyController {
 
-    private final VacancyMapper vacancyMapper;
-    private final VacancyService vacancyService;
+  private final VacancyMapper vacancyMapper;
+  private final VacancyService vacancyService;
 
-    @Operation(summary = "Find all Vacancies")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Vacancies are found"),
-            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
-    })
-    @GetMapping
-    public ResponseEntity<Page<VacancyDto>> findAllByValue(@PageableDefault final Pageable pageable,
-                                                           @RequestParam(name = "searchText", required = false) final String searchText,
-                                                           @RequestParam(name = "experienceLevel", required = false) final String experienceLevel,
-                                                           @RequestParam(name = "platformName", required = false) final String platformName) {
-        final Page<VacancyDto> vacancies = vacancyService
-                .findAllVacancies(pageable, searchText, experienceLevel, platformName)
-                .map(vacancyMapper::vacancyToDto);
-        log.info("Search Text: {}, Experience Level: {}, Platform Name: {}, Found Vacancies: {}, Page Size: {}, Page Number: {}, Page Sort: {}",
-                searchText, experienceLevel, platformName, vacancies.getTotalElements(), pageable.getPageSize(), pageable.getPageNumber(), pageable.getSort());
-        return ResponseEntity.status(HttpStatus.OK).body(vacancies);
-    }
+  @Operation(summary = "Find all Vacancies")
+  @ApiResponses(
+      value = {
+        @ApiResponse(responseCode = "200", description = "Vacancies are found"),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal server error",
+            content = @Content)
+      })
+  @GetMapping
+  public ResponseEntity<Page<VacancyDto>> findAllByValue(
+      @PageableDefault final Pageable pageable,
+      @RequestParam(name = "searchText", required = false) final String searchText,
+      @RequestParam(name = "experienceLevel", required = false) final String experienceLevel,
+      @RequestParam(name = "platformName", required = false) final String platformName) {
+    final Page<VacancyDto> vacancies =
+        vacancyService
+            .findAllVacancies(pageable, searchText, experienceLevel, platformName)
+            .map(vacancyMapper::vacancyToDto);
+    log.info(
+        "Search Text: {}, Experience Level: {}, Platform Name: {}, Found Vacancies: {}, Page Size: {}, Page Number: {}, Page Sort: {}",
+        searchText,
+        experienceLevel,
+        platformName,
+        vacancies.getTotalElements(),
+        pageable.getPageSize(),
+        pageable.getPageNumber(),
+        pageable.getSort());
+    return ResponseEntity.status(HttpStatus.OK).body(vacancies);
+  }
 }

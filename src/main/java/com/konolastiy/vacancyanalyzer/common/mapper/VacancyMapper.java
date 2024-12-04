@@ -8,10 +8,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface VacancyMapper {
 
-    @Mapping(source = "sourceId", target = "source")
-    Vacancy vacancyFromDto(VacancyDto vacancyDto);
+  @Mapping(source = "sourceId", target = "source")
+  Vacancy vacancyFromDto(VacancyDto vacancyDto);
 
-    @Mapping(source = "source", target = "sourceId")
-    VacancyDto vacancyToDto(Vacancy vacancy);
+  @Mapping(source = "source", target = "sourceId")
+  VacancyDto vacancyToDto(Vacancy vacancy);
 }
-

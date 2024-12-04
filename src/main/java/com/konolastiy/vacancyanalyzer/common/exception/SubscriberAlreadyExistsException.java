@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class SubscriberAlreadyExistsException extends RuntimeException {
 
-    public SubscriberAlreadyExistsException(String message) {
-        super(message);
-    }
+  public SubscriberAlreadyExistsException(String message) {
+    super(message);
+  }
 }

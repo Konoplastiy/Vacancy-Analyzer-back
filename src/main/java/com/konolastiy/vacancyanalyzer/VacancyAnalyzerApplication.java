@@ -14,29 +14,24 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 @OpenAPIDefinition(
-        info = @Info(
-                title = "Vacancy-analyzer REST API Documentation",
-                description = "Vacancy-analyzer REST API Documentation",
-                version = "v1",
-                contact = @Contact(
-                        name = "Andrew Konoplastiy",
-                        email = "konoplastiy@gmail.com",
-                        url = "https://www.vacancy-analyzer.com"
-                ),
-                license = @License(
-                        name = "Apache 2.0",
-                        url = "https://vacancy-analyzer.com"
-                )
-        ),
-        externalDocs = @ExternalDocumentation(
-                description = "Kanap-Vacancy-analyzer REST API Documentation",
-                url = "https://www.kanapbytes.com/swagger-ui.html"
-        )
-)
+    info =
+        @Info(
+            title = "Vacancy-analyzer REST API Documentation",
+            description = "Vacancy-analyzer REST API Documentation",
+            version = "v1",
+            contact =
+                @Contact(
+                    name = "Andrew Konoplastiy",
+                    email = "konoplastiy@gmail.com",
+                    url = "https://www.vacancy-analyzer.com"),
+            license = @License(name = "Apache 2.0", url = "https://vacancy-analyzer.com")),
+    externalDocs =
+        @ExternalDocumentation(
+            description = "Kanap-Vacancy-analyzer REST API Documentation",
+            url = "https://www.kanapbytes.com/swagger-ui.html"))
 public class VacancyAnalyzerApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(VacancyAnalyzerApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(VacancyAnalyzerApplication.class, args);
+  }
 }

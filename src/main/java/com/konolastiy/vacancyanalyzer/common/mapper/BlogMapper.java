@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface BlogMapper {
 
-    Blog blogFromDto(BlogDto blogDto);
+  Blog blogFromDto(BlogDto blogDto);
 
-    BlogDto blogToDto(Blog blog);
+  BlogDto blogToDto(Blog blog);
 }
