@@ -10,20 +10,6 @@ services:
       - 8081:8081
     depends_on:
       - selenium-hub
-    volumes:
-      - ./src/main/resources:/src/main/resources
-    networks:
-      - backend
-
-  haproxy:
-    image: haproxy:latest
-    container_name: haproxy
-    volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-    ports:
-      - 9000:9000
-    depends_on:
-      - backapp
     networks:
       - backend
 
@@ -44,6 +30,30 @@ services:
       - "4442:4442"
       - "4443:4443"
       - "4444:4444"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+    volumes:
+      - ./config/grafana/datasources.yml:/etc/grafana/datasources
+    healthcheck:
+      test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   backend:
