@@ -58,7 +58,7 @@ public class InitializationData implements CommandLineRunner {
         blogRepository.saveAll(blog);
       }
 
-      jobCollectionService.fetchAllVacanciesFromAllPlatforms();
+      //      jobCollectionService.fetchAllVacanciesFromAllPlatforms();
     }
   }
 }
