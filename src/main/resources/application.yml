@@ -8,6 +8,8 @@ server:
 spring:
   application:
     name: vacancyanalyzer
+  codec:
+    max-in-memory-size: 10MB
   #Jpa settings
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -23,8 +25,8 @@ spring:
   #Email sender settings
   mail:
     host: smtp.gmail.com
-    username: mailsendertelegram@gmail.com
-    password: kuszoulyjsjuccuo
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     port: 587
     protocol: smtp
     properties:
@@ -41,8 +43,12 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,prometheus,metrics,beans
+        include: health,info,metrics
   statsd:
     metrics:
       export:
-        enabled: false
+        enabled: true
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

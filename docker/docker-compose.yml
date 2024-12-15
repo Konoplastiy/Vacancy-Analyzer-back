@@ -2,7 +2,7 @@ version: "3"
 
 services:
   backapp:
-    image: kanap/vacancy-analyzer
+    image: kanap9/vacancy-analyzer
     container_name: vacancy-analyzer
     environment:
       SPRING_PROFILES_ACTIVE: local

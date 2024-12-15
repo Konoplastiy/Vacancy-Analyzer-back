@@ -140,7 +140,6 @@
       <artifactId>micrometer-registry-prometheus</artifactId>
       <version>${micrometer-registry-prometheus.version}</version>
     </dependency>
-
     <!-- Database dependencies -->
     <dependency>
       <groupId>com.h2database</groupId>
@@ -286,7 +285,7 @@
         <version>3.4.0</version>
         <configuration>
           <to>
-            <image>kanap/${project.artifactId}</image>
+            <image>kanap9/${project.artifactId}</image>
           </to>
         </configuration>
       </plugin>
