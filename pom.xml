@@ -32,7 +32,7 @@
     <mockito.version>5.10.0</mockito.version>
     <junit-jupiter.version>5.10.1</junit-jupiter.version>
     <junit.version>4.13.2</junit.version>
-    <micrometer-registry-prometheus.version>1.14.2</micrometer-registry-prometheus.version>
+    <micrometer-registry-prometheus.version>1.13.2</micrometer-registry-prometheus.version>
     <plugin.spotless-maven-plugin.version>2.43.0</plugin.spotless-maven-plugin.version>
     <plugin.spotless-maven-plugin.googleJavaFormat.version>1.17.0
     </plugin.spotless-maven-plugin.googleJavaFormat.version>
@@ -137,7 +137,7 @@
     </dependency>
     <dependency>
       <groupId>io.micrometer</groupId>
-      <artifactId>micrometer-registry-prometheus</artifactId>
+      <artifactId>micrometer-registry-prometheus-simpleclient</artifactId>
       <version>${micrometer-registry-prometheus.version}</version>
     </dependency>
     <!-- Database dependencies -->

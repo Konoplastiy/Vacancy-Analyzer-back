@@ -7,7 +7,7 @@ server:
 ###
 spring:
   application:
-    name: vacancyanalyzer
+    name: vacancy-analyzer
   codec:
     max-in-memory-size: 10MB
   #Jpa settings
@@ -39,15 +39,17 @@ spring:
 management:
   endpoint:
     health:
+      probes:
+        enabled: true
       show-components: always
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,prometheus
   statsd:
     metrics:
       export:
-        enabled: true
+        enabled: false
 
 logging:
   pattern:
