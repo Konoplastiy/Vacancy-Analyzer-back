@@ -13,14 +13,13 @@
 ### Prerequisites
 
 - Docker
-- Docker Compose
 
 ### Installation
 
 1. Clone the repository:
 
     ```bash
-    https://github.com/Konoplastiy/clearsolutions-test-task.git
+    https://github.com/Konoplastiy/Vacancy-Analyzer-back.git
     ```
 
 2. Generate the Docker image:
@@ -66,8 +65,8 @@
 ---
 
 ```bash
-./mvnw clean install
-./mvnw compile
+ mvnw clean install
+ mvnw compile
 ```
 ---
 
@@ -76,14 +75,14 @@
 ---
 
 ```bash
-./mvnw clean test -Pcoverage
+ mvnw clean test -Pcoverage
 ```
 ---
 
 ## Profiles
 
 ```bash
-./mvnw clean install
+ mvnw clean install
 ```
 
 > [Spring Profiles](https://www.baeldung.com/spring-profiles)

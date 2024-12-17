@@ -10,7 +10,14 @@
     "node",
     "frontend",
     "front-end",
-    "фронденд"
+    "фронденд",
+    "vanilla js",
+    "jquery",
+    "svelte",
+    "next.js",
+    "nuxt.js",
+    "typescript js",
+    "angularjs"
   ],
   "Java": [
     "java",
@@ -18,92 +25,241 @@
     "java ee",
     "j2ee",
     "j2se",
-    "spring"
+    "spring",
+    "spring boot",
+    "hibernate",
+    "jvm",
+    "kotlin/java",
+    "javafx",
+    "graalvm"
   ],
   "Python": [
     "python",
     "python 3",
     "python 2.7",
-    "django"
+    "django",
+    "flask",
+    "pandas",
+    "numpy",
+    "scipy",
+    "pyqt",
+    "tkinter",
+    "machine learning",
+    "ai python",
+    "jupyter"
   ],
   "C#": [
     "c#",
     "c sharp",
-    "c#.net"
+    "c#.net",
+    ".net",
+    "asp.net",
+    "blazor",
+    "unity",
+    "xamarin",
+    "entity framework",
+    "wpf",
+    "c# core"
   ],
   "C++": [
     "c++",
     "cpp",
-    "c plus plus"
+    "c plus plus",
+    "visual c++",
+    "embedded c++",
+    "qt",
+    "boost",
+    "stl",
+    "c++11",
+    "c++14",
+    "c++17"
   ],
   "Ruby": [
     "ruby",
-    "ruby on rails"
+    "ruby on rails",
+    "ror",
+    "jruby",
+    "sinatra",
+    "rack",
+    "ruby gems",
+    "rake",
+    "capybara",
+    "haml"
   ],
   "PHP": [
     "php",
     "php7",
-    "php5"
+    "php5",
+    "laravel",
+    "symfony",
+    "zend",
+    "codeigniter",
+    "wordpress php",
+    "cakephp",
+    "drupal php"
   ],
   "Swift": [
-    "swift"
+    "swift",
+    "ios",
+    "macos",
+    "objective-c to swift",
+    "swiftui",
+    "cocoa touch",
+    "xcode",
+    "swift package manager"
   ],
   "Kotlin": [
     "kotlin",
-    "android"
+    "android",
+    "kotlin/java",
+    "android studio",
+    "kotlin coroutines",
+    "multiplatform kotlin",
+    "kotlinx",
+    "gradle kotlin"
   ],
   "Go": [
     "go",
-    "golang"
+    "golang",
+    "go language",
+    "goroutines",
+    "gopher",
+    "go cli",
+    "go modules",
+    "grpc go",
+    "net/http go"
   ],
   "Rust": [
-    "rust"
+    "rust",
+    "rustlang",
+    "cargo",
+    "tokio",
+    "wasm rust",
+    "rust compiler",
+    "actix",
+    "serde",
+    "rocket rust"
   ],
   "TypeScript": [
     "typescript",
-    "ts"
+    "ts",
+    "typed javascript",
+    "tsnode",
+    "nestjs",
+    "angular ts",
+    "react ts",
+    "typescript vue",
+    "deno",
+    "esnext"
   ],
   "Scala": [
-    "scala"
+    "scala",
+    "scalajs",
+    "akka",
+    "play framework",
+    "spark scala",
+    "scalaz",
+    "slick scala",
+    "functional scala"
   ],
   "Objective-C": [
     "objective-c",
     "obj-c",
-    "objc"
+    "objc",
+    "cocoa",
+    "ios objective-c",
+    "macos obj-c",
+    "cocoa touch obj-c",
+    "xcode obj-c"
   ],
   "Perl": [
-    "perl"
+    "perl",
+    "perl5",
+    "perl scripting",
+    "mod_perl",
+    "cgi perl",
+    "perl regex",
+    "perl module"
   ],
   "R": [
-    "r"
+    "r",
+    "r language",
+    "r stats",
+    "ggplot",
+    "r markdown",
+    "tidyverse",
+    "shiny r",
+    "data science r"
   ],
   "MATLAB": [
-    "matlab"
+    "matlab",
+    "matlab scripting",
+    "simulink",
+    "matlab data",
+    "image processing matlab",
+    "matlab toolbox",
+    "matlab gui"
   ],
   "Dart": [
-    "dart"
+    "dart",
+    "flutter",
+    "dartlang",
+    "flutter dart",
+    "web dart",
+    "dart server"
   ],
   "Lua": [
-    "lua"
+    "lua",
+    "luajit",
+    "lua scripting",
+    "game lua",
+    "embedded lua",
+    "openresty lua"
   ],
   "Haskell": [
-    "haskell"
+    "haskell",
+    "ghc",
+    "cabal",
+    "stack haskell",
+    "haskell functional",
+    "haskell programming"
   ],
   "C1": [
     "1c",
-    "1с"
+    "1с",
+    "1c enterprise",
+    "1c programming",
+    "1c developer"
   ],
   "Wordpress": [
-    "wordpress"
+    "wordpress",
+    "wp",
+    "wordpress development",
+    "wp theme",
+    "wp plugin",
+    "woocommerce",
+    "wordpress php"
   ],
   "Full Stack": [
     "full stack",
     "full",
-    "fullstack"
+    "fullstack",
+    "fullstack developer",
+    "full stack engineer",
+    "frontend/backend",
+    "frontend and backend",
+    "fs developer"
   ],
   "Data Engineer": [
     "data engineer",
     "database",
-    "data"
+    "data",
+    "etl",
+    "big data",
+    "data pipelines",
+    "sql engineer",
+    "data architect",
+    "hadoop",
+    "spark data engineer"
   ]
 }

@@ -1,17 +1,52 @@
 {
   "Senior": [
     "senior",
-    "lead"
+    "sr",
+    "lead",
+    "senior developer",
+    "principal",
+    "senior engineer",
+    "sr dev",
+    "sr engineer",
+    "technical lead",
+    "tech lead",
+    "staff engineer",
+    "head of development",
+    "architect"
   ],
   "Middle": [
     "middle",
-    "midle"
+    "mid",
+    "midle",
+    "intermediate",
+    "mid-level",
+    "experienced",
+    "mid dev",
+    "mid engineer",
+    "associate"
   ],
   "Junior": [
-    "junior"
+    "junior",
+    "jr",
+    "junior developer",
+    "entry-level",
+    "beginner",
+    "jr dev",
+    "jr engineer",
+    "trainee-level"
   ],
   "Trainee": [
     "trainee",
-    "intern"
+    "intern",
+    "apprentice",
+    "internship",
+    "graduate",
+    "fresher",
+    "newbie",
+    "student developer",
+    "junior trainee",
+    "intern developer",
+    "dev intern",
+    "engineering intern"
   ]
 }
