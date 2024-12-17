@@ -21,13 +21,13 @@ public class EmailValidatorTest {
 
   @ParameterizedTest(name = "#{index} - Run test with email = {0}")
   @MethodSource("validEmailProvider")
-  public void testIsValidEmail_regexValid(String email) {
+  public void test_isValidEmailWhenRegexValid(String email) {
     Assertions.assertTrue(emailValidator.isValid(email, context));
   }
 
   @ParameterizedTest(name = "#{index} - Run test with email = {0}")
   @MethodSource("invalidEmailProvider")
-  public void testIsValidEmail_regexInvalid(String email) {
+  public void test_isValidEmailWhenRegexInvalid(String email) {
     assertFalse(emailValidator.isValid(email, context));
   }
 
